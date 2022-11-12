@@ -1,0 +1,14 @@
+# vscode files
+.vscode/
+
+# Environment files
+*.env
+.process.*env
+.env
+
+# node modules
+/node_modules
+
+# python pycache
+/__pycache__
+*.pyc
