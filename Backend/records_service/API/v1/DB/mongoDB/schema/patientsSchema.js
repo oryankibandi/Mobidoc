@@ -8,6 +8,7 @@ const patientsSchema = Schema({
   middle_name: { type: String, required: true },
   patient_uid: { type: String, required: true },
   national_id: { type: String, required: true },
+  role: { type: Number, required: true },
   chat_uid: { type: String, required: true, default: null },
   records_uid: { type: String, required: true },
   email: { type: String, required: true, default: null },
