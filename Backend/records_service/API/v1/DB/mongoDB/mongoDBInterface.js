@@ -14,11 +14,9 @@ class MongoDBInstance extends Event {
   async makeEntry(Model, entryObject) {
     try {
       const newModel = await Model.create(entryObject);
-      //console.log("Emitting event...");
       this.emit("entryCreated", newModel);
       return newModel;
     } catch (err) {
-      console.log("Error when creating an entry: ", err.message);
       throw new Error(err.message);
     }
   }

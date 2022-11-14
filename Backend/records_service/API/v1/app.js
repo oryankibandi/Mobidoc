@@ -12,6 +12,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const connectMongoDB = require("./DB/mongoDB/connectMongoDB");
 
+const patientRoute = require("./routes/patientRoute");
+const doctorRoute = require("./routes/doctorRoute");
+const verifyToken = require("./middleware/verifyToken");
+
 const app = express();
 const numCPUs = cpus().length;
 
@@ -31,6 +35,11 @@ if (cluster.isPrimary) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cors());
   app.use(cookieParser());
+
+  app.use(verifyToken);
+
+  app.use("/patient", patientRoute);
+  app.use("/doctor", doctorRoute);
 
   //db
   mongoose.connection.once("open", () => {

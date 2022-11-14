@@ -11,6 +11,8 @@ class Doctor {
     this.address = docDetails.address;
     this.place_of_work = docDetails.place_of_work;
     this.area_of_specialty = docDetails.area_of_specialty;
+    this.hashed_password = docDetails.hashed_password;
+    this.refresh_token = docDetails.refresh_token ?? null;
   }
 
   validate(docDetails) {
@@ -26,6 +28,39 @@ class Doctor {
       throw new Error("place_of_work not provided");
     if (!docDetails.area_of_specialty)
       throw new Error("area_of_specialty not provided");
+    if (!docDetails.hashed_password)
+      throw new Error("hashed_password not provided");
+  }
+
+  prepend() {
+    this.doctor_uid = "doc".concat("_", this.doctor_uid);
+  }
+
+  toFormattedJson() {
+    return Object.freeze({
+      first_name: this.first_name,
+      last_name: this.last_name,
+      doctor_uid: this.doctor_uid,
+      national_id: this.national_id,
+      role: this.role,
+      username: this.username,
+      email: this.email,
+      address: this.address,
+      place_of_work: this.place_of_work,
+      area_of_specialty: this.area_of_specialty,
+      hashed_password: this.hashed_password,
+    });
+  }
+
+  toCensoredJson() {
+    return Object.freeze({
+      first_name: this.first_name,
+      last_name: this.last_name,
+      doctor_uid: this.doctor_uid,
+      role: this.role,
+      username: this.username,
+      email: this.email,
+    });
   }
 }
 
