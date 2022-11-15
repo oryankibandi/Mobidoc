@@ -1,8 +1,9 @@
 require("dotenv").config();
+const openRoutes = require("../config/openRoutes");
 const JWT = require("../helpers/jwt");
 
 const verifyToken = async (req, res, next) => {
-  if (req.url.includes("patient") || req.url.includes("doctor")) {
+  if (openRoutes.find((e) => e === req.url)) {
     return next();
   }
 
@@ -18,11 +19,19 @@ const verifyToken = async (req, res, next) => {
       const token = auth_header.split(" ")[1];
       const jwtInstance = new JWT();
 
-      jwtInstance.verify(token, process.env.ACCESS_TOKEN_SECRET);
       jwtInstance.on("decoded", (decoded) => {
         req.user = decoded;
         return next();
       });
+
+      jwtInstance.on("invalidToken", (error) => {
+        res.status(401).json({
+          status: "ERROR",
+          message: error.message,
+        });
+      });
+
+      jwtInstance.verify(token, process.env.ACCESS_TOKEN_SECRET);
     } catch (error) {
       res.status(401).json({
         status: "ERROR",

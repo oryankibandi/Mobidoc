@@ -2,6 +2,9 @@ const createDoctor = require("./createDoctor");
 const authenticateDoctor = require("./authenticateDoctor");
 const logOutDoctor = require("./logOutDoctor");
 const refreshDoctor = require("./refreshDoctor");
+const getDoctor = require("./getDoctor");
+const updateDoctor = require("./updateDoctor");
+const getDoctors = require("./getDoctors");
 
 module.exports = {
   createDoctor: async (
@@ -55,4 +58,10 @@ module.exports = {
       refresh_token,
       refresh_token_secret
     ),
+  getDoctor: async (dbInstance, DocModel, doctor_uid) =>
+    getDoctor(dbInstance, DocModel, doctor_uid),
+  updateDoctor: async (dbInstance, DocModel, doctor_uid, new_values) =>
+    updateDoctor(dbInstance, DocModel, doctor_uid, new_values),
+  getDoctors: async (dbInstance, DocModel, filters) =>
+    getDoctors(dbInstance, DocModel, filters),
 };
