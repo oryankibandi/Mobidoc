@@ -14,6 +14,8 @@ const connectMongoDB = require("./DB/mongoDB/connectMongoDB");
 
 const patientRoute = require("./routes/patientRoute");
 const doctorRoute = require("./routes/doctorRoute");
+const doctorsRoute = require("./routes/doctorsRoute");
+const patientsRoute = require("./routes/patientsRoute");
 const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
@@ -40,6 +42,8 @@ if (cluster.isPrimary) {
 
   app.use("/patient", patientRoute);
   app.use("/doctor", doctorRoute);
+  app.use("/doctors", doctorsRoute);
+  app.use("/patients", patientsRoute);
 
   //db
   mongoose.connection.once("open", () => {

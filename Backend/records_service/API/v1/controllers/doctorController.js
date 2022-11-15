@@ -10,55 +10,55 @@ const createDoctorController = async (req, res) => {
   const docDetails = req.body;
 
   if (!docDetails.first_name) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "first_namenot provided",
     });
   }
   if (!docDetails.last_name) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "last_namenot provided",
     });
   }
   if (!docDetails.national_id) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "national_id not provided",
     });
   }
   if (!docDetails.username) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "username not provided",
     });
   }
   if (!docDetails.email) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "email not provided",
     });
   }
   if (!docDetails.address) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "address not provided",
     });
   }
   if (!docDetails.place_of_work) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "place_of_work not provided",
     });
   }
   if (!docDetails.area_of_specialty) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "area_of_specialty not provided",
     });
   }
   if (!docDetails.password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "password not provided",
     });
@@ -75,12 +75,12 @@ const createDoctorController = async (req, res) => {
       docDetails
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: new_doctor,
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: error.message,
     });
@@ -91,13 +91,13 @@ const authenticateDoctorController = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "email not provided",
     });
   }
   if (!password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "password not provided",
     });
@@ -117,7 +117,7 @@ const authenticateDoctorController = async (req, res) => {
     );
 
     res.cookie("jwt", data.refresh_token);
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: {
         user: data.user,
@@ -125,7 +125,7 @@ const authenticateDoctorController = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: error.message,
     });
@@ -136,7 +136,7 @@ const refreshDoctorController = async (req, res) => {
   const { jwt } = req.cookies;
 
   if (!jwt) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: "no cookies found",
     });
@@ -154,14 +154,14 @@ const refreshDoctorController = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: {
         access_token: access_token,
       },
     });
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: error.message,
     });
@@ -172,7 +172,7 @@ const logOutDoctorController = async (req, res) => {
   const { jwt } = req.cookies;
 
   if (!jwt) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: "no cookies found",
     });
@@ -192,13 +192,125 @@ const logOutDoctorController = async (req, res) => {
 
     dbInstance.on("modelUpdated", () => {
       res.clearCookie("jwt");
-      res.status(200).json({
+      return res.status(200).json({
         status: "SUCCESS",
         data: "logged out successfully",
       });
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const getDoctorController = async (req, res) => {
+  const { user } = req;
+  const { doctor_uid } = req.params;
+
+  if (!user) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+  if (!doctor_uid) {
+    return res.status(402).json({
+      status: "ERROR",
+      message: "doctor_uid must be provided as a path parameter",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const doc_details = await doctorUserCaseInterface.getDoctor(
+      dbInstance,
+      DocModel,
+      doctor_uid
+    );
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      data: doc_details,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const updateDoctorController = async (req, res) => {
+  const { user } = req;
+  const { doctor_uid } = req.params;
+  const new_values = req.body;
+
+  if (!user) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unautheniticated",
+    });
+  }
+
+  if (!doctor_uid) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "doctor_uid must be provided as a path parameter",
+    });
+  }
+
+  if (user.role !== roles.doctor) {
+    return res.status(403).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+
+  if (doctor_uid !== user.doctor_uid) {
+    return res.status(403).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const new_doctor = await doctorUserCaseInterface.updateDoctor(
+      dbInstance,
+      DocModel,
+      doctor_uid,
+      new_values
+    );
+
+    return res.status(201).json({
+      status: "SUCCESS",
+      data: new_doctor,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const getDoctorsController = async (req, res) => {
+  try {
+    const dbInstance = new DB();
+    const data = await doctorUserCaseInterface.getDoctors(
+      dbInstance,
+      DocModel,
+      req.query
+    );
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      data: data,
+    });
+  } catch (error) {
+    return res.status(400).json({
       status: "ERROR",
       message: error.message,
     });
@@ -210,4 +322,7 @@ module.exports = {
   authenticateDoctorController,
   refreshDoctorController,
   logOutDoctorController,
+  getDoctorController,
+  updateDoctorController,
+  getDoctorsController,
 };

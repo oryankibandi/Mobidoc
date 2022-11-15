@@ -207,9 +207,140 @@ const logOutPatientController = async (req, res) => {
   }
 };
 
+const getPatientController = async (req, res) => {
+  const { user } = req;
+  const { patient_uid } = req.params;
+
+  if (!user) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+  if (!patient_uid) {
+    return res.status(402).json({
+      status: "ERROR",
+      message: "patient id must be provided as a path parameter",
+    });
+  }
+
+  if (user.role !== roles.doctor && user.patient_uid !== patient_uid) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const patientDetails = await patientUserCaseInterface.getPatient(
+      dbInstance,
+      PatientModel,
+      patient_uid
+    );
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      data: patientDetails,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const updatePatientController = async (req, res) => {
+  const { user } = req;
+  const { patient_uid } = req.params;
+  const new_values = req.body;
+
+  if (!user) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unautheniticated",
+    });
+  }
+
+  if (!patient_uid) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "patient_uid must be provided as a path parameter",
+    });
+  }
+
+  if (user.role !== roles.patient) {
+    return res.status(403).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+
+  if (patient_uid !== user.patient_uid) {
+    return res.status(403).json({
+      status: "ERROR",
+      message: "forbidden",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const new_patient = await patientUserCaseInterface.updatePatient(
+      dbInstance,
+      PatientModel,
+      patient_uid,
+      new_values
+    );
+
+    return res.status(201).json({
+      status: "SUCCESS",
+      data: new_patient,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const getPatientsController = async (req, res) => {
+  const { user } = req;
+
+  if (user.role !== roles.doctor) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const data = await patientUserCaseInterface.getPatients(
+      dbInstance,
+      PatientModel,
+      req.query
+    );
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      data: data,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createPatientController,
   authenticatePatientController,
   refreshPatientController,
   logOutPatientController,
+  getPatientController,
+  getPatientsController,
+  updatePatientController,
 };

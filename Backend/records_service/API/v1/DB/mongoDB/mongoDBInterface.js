@@ -11,6 +11,11 @@ class MongoDBInstance extends Event {
     return result;
   }
 
+  async findMany(Model, filters) {
+    const results = await Model.find(filters).exec();
+    return results;
+  }
+
   async makeEntry(Model, entryObject) {
     try {
       const newModel = await Model.create(entryObject);
@@ -25,6 +30,7 @@ class MongoDBInstance extends Event {
     try {
       let updatedObj = await Model.findOneAndUpdate(query, newValueObject);
       this.emit("modelUpdated", updatedObj);
+      return updatedObj;
     } catch (error) {
       throw new Error(error);
     }
