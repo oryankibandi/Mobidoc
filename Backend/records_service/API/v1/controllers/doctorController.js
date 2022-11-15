@@ -296,9 +296,7 @@ const updateDoctorController = async (req, res) => {
   }
 };
 
-const getDoctors = async (req, res) => {
-  const { country, area_of_specialty, place_of_work } = req.query;
-
+const getDoctorsController = async (req, res) => {
   try {
     const dbInstance = new DB();
     const data = await doctorUserCaseInterface.getDoctors(
@@ -326,5 +324,5 @@ module.exports = {
   logOutDoctorController,
   getDoctorController,
   updateDoctorController,
-  getDoctors,
+  getDoctorsController,
 };

@@ -3,10 +3,11 @@ const Doctor = require("../../entities/doctor");
 const getDoctors = async (dbInstance, DocModel, filters) => {
   let filtered_query = {};
   for (const [key, value] of Object.entries(filters)) {
+    let re = new RegExp(`^${value}`);
     if (key === "country") {
-      filtered_query[`address.country`] = value;
+      filtered_query[`address.country`] = { $regex: re, $options: "i" };
     } else {
-      filtered_query[`${key}`] = value;
+      filtered_query[`${key}`] = { $regex: re, $options: "i" };
     }
   }
 

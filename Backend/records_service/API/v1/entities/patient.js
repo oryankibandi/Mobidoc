@@ -69,7 +69,7 @@ class Patient {
       last_name: this.last_name,
       middle_name: this.middle_name,
       patient_uid: this.patient_uid,
-      record_uid: this.record_uid ?? null,
+      role: this.role,
       email: this.email,
       phone_number: this.phone_number,
     });
