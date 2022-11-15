@@ -14,7 +14,7 @@ const medicalRecordsSchema = Schema({
   records: [
     {
       doctor_uid: { type: String, required: true },
-      date: { type: Date, required: true, default: Date.now() },
+      date: { type: Date, required: true, default: new Date(Date.now()) },
       symptoms: [{ type: String, required: true }],
       diagnosis: {
         condition: { type: String, required: true },
@@ -30,4 +30,4 @@ const medicalRecordsSchema = Schema({
   ],
 });
 
-module.exports = mongoose.model("MedicalRecordsSchema", medicalRecordsSchema);
+module.exports = mongoose.model("Record", medicalRecordsSchema);
