@@ -8,7 +8,7 @@ class Patient {
     this.national_id = patientDetails.national_id;
     this.role = patientDetails.role;
     this.chat_uid = patientDetails.chat_uid ?? null;
-    this.record_uid = patientDetails.record_uid;
+    this.med_file_uid = patientDetails.med_file_uid;
     this.email = patientDetails.email;
     this.phone_number = patientDetails.phone_number;
     this.address = patientDetails.address;
@@ -26,7 +26,7 @@ class Patient {
     if (!patientDetails.national_id)
       throw new Error("national_id not provided");
     if (!patientDetails.role) throw new Error("role not provided");
-    // if (!patientDetails.record_uid) throw new Error("record_uid not provided");
+    // if (!patientDetails.med_file_uid) throw new Error("med_file_uid not provided");
     if (!patientDetails.email) throw new Error("email not provided");
     if (!patientDetails.phone_number)
       throw new Error("phone_number not provided");
@@ -41,8 +41,8 @@ class Patient {
     this.patient_uid = "pat".concat("_", this.patient_uid);
   }
 
-  addRecordUid(record_uid) {
-    this.record_uid = record_uid;
+  addRecordUid(med_file_uid) {
+    this.med_file_uid = med_file_uid;
   }
 
   toFormattedJson() {
@@ -54,7 +54,7 @@ class Patient {
       national_id: this.national_id,
       role: this.role,
       chat_uid: this.chat_uid,
-      record_uid: this.record_uid,
+      med_file_uid: this.med_file_uid,
       email: this.email,
       phone_number: this.phone_number,
       address: this.address,

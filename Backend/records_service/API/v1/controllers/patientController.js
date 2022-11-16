@@ -4,7 +4,7 @@ const Cryptography = require("../helpers/cryptography");
 const DB = require("../DB/mongoDB/mongoDBInterface");
 const JWT = require("../helpers/jwt");
 const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
-const RecordModel = require("../DB/mongoDB/schema/medicalRecordsSchema");
+const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
 
 const createPatientController = async (req, res) => {
@@ -72,7 +72,7 @@ const createPatientController = async (req, res) => {
       cryptographyInstance,
       dbInstance,
       PatientModel,
-      RecordModel,
+      MedicalFileModel,
       roles,
       patientDetails
     );
