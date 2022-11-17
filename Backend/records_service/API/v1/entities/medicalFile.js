@@ -5,6 +5,7 @@ class MedicalFile {
     this.med_file_uid = recordDetails.med_file_uid;
     this.patient_uid = recordDetails.patient_uid;
     this.doctors_with_access = recordDetails.doctors_with_access ?? [];
+    this.doctors_requests = recordDetails.doctors_requests ?? [];
     this.records = recordDetails.records ?? [];
   }
 
@@ -32,6 +33,18 @@ class MedicalFile {
       med_file_uid: this.med_file_uid,
       patient_uid: this.patient_uid,
       records: this.records,
+    });
+  }
+
+  getDoctorsWithAccess() {
+    return Object.freeze({
+      doctors_with_access: this.doctors_with_access,
+    });
+  }
+
+  getRequests() {
+    return Object.freeze({
+      doctors_requests: this.doctors_requests,
     });
   }
 }

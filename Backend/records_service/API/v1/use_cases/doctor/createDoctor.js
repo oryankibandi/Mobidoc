@@ -7,13 +7,19 @@ const createDoctor = async (
   roles,
   docDetails
 ) => {
-  const existing_entry = await dbInstance.checkInstanceByField(
+  const existing_entry_by_id = await dbInstance.checkInstanceByField(
     DocModel,
     "national_id",
     docDetails.national_id
   );
+  const existing_entry_by_email = await dbInstance.checkInstanceByField(
+    DocModel,
+    "email",
+    docDetails.email
+  );
 
-  if (existing_entry) throw new Error("Already registered");
+  if (existing_entry_by_id) throw new Error("ID no. already registered");
+  if (existing_entry_by_email) throw new Error("Email already registered");
 
   docDetails.doctor_uid = cryptographyInstance.generateUUID();
   docDetails.role = roles.doctor;

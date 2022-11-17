@@ -12,6 +12,12 @@ const medicalFilesSchema = Schema({
       access_token: { type: String },
     },
   ],
+  doctors_requests: [
+    {
+      doctor_uid: { type: String },
+      time: { type: Date, default: new Date(Date.now()) },
+    },
+  ],
   records: [
     {
       record_uid: { type: String, required: true },
