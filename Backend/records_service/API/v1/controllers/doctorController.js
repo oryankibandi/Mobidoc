@@ -161,6 +161,7 @@ const refreshDoctorController = async (req, res) => {
       },
     });
   } catch (error) {
+    res.clearCookie("jwt");
     return res.status(401).json({
       status: "ERROR",
       message: error.message,
@@ -297,12 +298,20 @@ const updateDoctorController = async (req, res) => {
 };
 
 const getDoctorsController = async (req, res) => {
+  const { count, page, username, place_of_work, area_of_specialty } = req.query;
+
+  const filters = {};
+  if (username) filters.username = username;
+  if (place_of_work) filters.place_of_work = place_of_work;
+  if (area_of_specialty) filters.area_of_specialty = area_of_specialty;
   try {
     const dbInstance = new DB();
     const data = await doctorUserCaseInterface.getDoctors(
       dbInstance,
       DocModel,
-      req.query
+      filters,
+      page,
+      count
     );
 
     return res.status(200).json({

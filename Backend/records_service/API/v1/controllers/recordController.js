@@ -128,7 +128,7 @@ const addRecordController = async (req, res) => {
 
 const getRecordsController = async (req, res) => {
   const { user } = req;
-  const { patient_uid } = req.query;
+  const { patient_uid, page, count } = req.query;
 
   if (!patient_uid) {
     return res.status(400).json({
@@ -143,30 +143,38 @@ const getRecordsController = async (req, res) => {
       message: "Unauthorized",
     });
   }
+  const filters = {
+    patient_uid: patient_uid,
+  };
 
   try {
     const dbInstance = new DB();
     const jwtInstance = new JWT();
 
-    const access = await medicalFileUseCaseInterface.verifyAccess(
-      dbInstance,
-      MedicalFileModel,
-      user.doctor_uid,
-      patient_uid,
-      jwtInstance,
-      process.env.RECORD_ACCESS_SECRET
-    );
+    if (user.role === roles.doctor) {
+      const access = await medicalFileUseCaseInterface.verifyAccess(
+        dbInstance,
+        MedicalFileModel,
+        user.doctor_uid,
+        patient_uid,
+        jwtInstance,
+        process.env.RECORD_ACCESS_SECRET
+      );
 
-    if (!access) {
-      return res.status(401).json({
-        status: "ERROR",
-        message: "unauthorized",
-      });
+      if (!access) {
+        return res.status(401).json({
+          status: "ERROR",
+          message: "unauthorized",
+        });
+      }
     }
+
     const retrieved_records = await recordUseCaseInterface.getRecords(
       dbInstance,
       RecordModel,
-      req.query
+      filters,
+      page,
+      count
     );
 
     return res.status(200).json({

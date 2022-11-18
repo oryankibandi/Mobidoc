@@ -62,6 +62,6 @@ module.exports = {
     getDoctor(dbInstance, DocModel, doctor_uid),
   updateDoctor: async (dbInstance, DocModel, doctor_uid, new_values) =>
     updateDoctor(dbInstance, DocModel, doctor_uid, new_values),
-  getDoctors: async (dbInstance, DocModel, filters) =>
-    getDoctors(dbInstance, DocModel, filters),
+  getDoctors: async (dbInstance, DocModel, filters, page, count) =>
+    getDoctors(dbInstance, DocModel, filters, page, count),
 };

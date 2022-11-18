@@ -21,6 +21,6 @@ module.exports = {
     ),
   getRecord: async (dbInstance, RecordModel, record_uid) =>
     getRecord(dbInstance, RecordModel, record_uid),
-  getRecords: async (dbInstance, RecordModel, filters) =>
-    getRecords(dbInstance, RecordModel, filters),
+  getRecords: async (dbInstance, RecordModel, filters, page, count) =>
+    getRecords(dbInstance, RecordModel, filters, page, count),
 };

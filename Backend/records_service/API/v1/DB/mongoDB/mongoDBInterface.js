@@ -44,6 +44,18 @@ class MongoDBInstance extends Event {
       throw new Error("Problem deleting document");
     }
   }
+
+  async getPaginatedResults(Model, filters, page = 1, count = 10) {
+    const starting_index = (page - 1) * count;
+    const results = await Model.find(filters).skip(starting_index).limit(count);
+
+    return results;
+  }
+
+  async count(Model) {
+    const count = await Model.find().count();
+    return count;
+  }
 }
 
 module.exports = MongoDBInstance;
