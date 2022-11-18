@@ -68,8 +68,8 @@ module.exports = {
     ),
   getPatient: async (dbInstance, PatientModel, filters) =>
     getPatient(dbInstance, PatientModel, filters),
-  getPatients: async (dbInstance, PatientModel, filters) =>
-    getPatients(dbInstance, PatientModel, filters),
+  getPatients: async (dbInstance, PatientModel, filters, page, count) =>
+    getPatients(dbInstance, PatientModel, filters, page, count),
   updatePatient: async (dbInstance, PatientModel, patient_uid, new_values) =>
     updatePatient(dbInstance, PatientModel, patient_uid, new_values),
 };

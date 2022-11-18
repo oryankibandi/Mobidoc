@@ -10,8 +10,8 @@ const updatePatient = async (
     if (key === "patient_uid") throw new Error("cannot change patient_uid");
     if (key === "refresh_token")
       throw new Error("Not authorized to change refresh_token");
-    if (key === "record_uid")
-      throw new Error("Not authorized to change record_uid");
+    if (key === "med_file_uid")
+      throw new Error("Not authorized to change med_file_uid");
     if (key === "chat_uid")
       throw new Error("Not authorized to change chat_uid");
   }

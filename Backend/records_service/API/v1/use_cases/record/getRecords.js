@@ -1,10 +1,10 @@
-const Patient = require("../../entities/patient");
+const Record = require("../../entities/record");
 
-const getPatients = async (
+const getRecords = async (
   dbInstance,
-  PatientModel,
+  RecordModel,
   filters,
-  page = 1,
+  page = 0,
   count = 10
 ) => {
   let filtered_query = {};
@@ -13,18 +13,18 @@ const getPatients = async (
     filtered_query[`${key}`] = { $regex: re, $options: "i" };
   }
 
-  const data = await dbInstance.findMany(PatientModel, filtered_query);
-  const entries = data.length;
+  const query_results = await dbInstance.findMany(RecordModel, filtered_query);
+  const entries = query_results.length;
 
-  if (data.length > 0) {
+  if (query_results.length > 0) {
     let results = [];
     let formatted_data = {};
     let starting_index = (page - 1) * count;
     let final_index = starting_index + count;
-    const final_results = data.slice(starting_index, final_index);
-    final_results.forEach((item) => {
-      let new_doc = new Patient(item);
-      results.push(new_doc.toCensoredJson());
+    const final_results = query_results.slice(starting_index, final_index);
+    final_results.forEach((record) => {
+      let new_record = new Record(record);
+      results.push(new_record.toCensoredJson());
     });
 
     formatted_data.results = results;
@@ -39,7 +39,7 @@ const getPatients = async (
     return formatted_data;
   }
 
-  return data;
+  return results;
 };
 
-module.exports = getPatients;
+module.exports = getRecords;

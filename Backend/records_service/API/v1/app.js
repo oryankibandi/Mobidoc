@@ -16,6 +16,9 @@ const patientRoute = require("./routes/patientRoute");
 const doctorRoute = require("./routes/doctorRoute");
 const doctorsRoute = require("./routes/doctorsRoute");
 const patientsRoute = require("./routes/patientsRoute");
+const recordRoute = require("./routes/recordRoute");
+const recordsRoute = require("./routes/recordsRoute");
+const medFileRoute = require("./routes/medFileRoute");
 const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
@@ -44,6 +47,9 @@ if (cluster.isPrimary) {
   app.use("/doctor", doctorRoute);
   app.use("/doctors", doctorsRoute);
   app.use("/patients", patientsRoute);
+  app.use("/record", recordRoute);
+  app.use("/records", recordsRoute);
+  app.use("/medfiles", medFileRoute);
 
   //db
   mongoose.connection.once("open", () => {

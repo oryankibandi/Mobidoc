@@ -1,11 +1,11 @@
 const Patient = require("../../entities/patient");
-const recordsUseCaseInterface = require("../records/recordsUseCaseInterface");
+const medicalFileUseCaseInterface = require("../MedicalFile/medicalFileUseCaseInterface");
 
 const createPatient = async (
   cryptographyInstance,
   dbInstance,
   PatientModel,
-  RecordModel,
+  MedicalFileModel,
   roles,
   patientDetails
 ) => {
@@ -34,14 +34,14 @@ const createPatient = async (
   const new_patient = new Patient(patientDetails);
   new_patient.prepend();
 
-  const new_record = await recordsUseCaseInterface.createRecord(
+  const new_record = await medicalFileUseCaseInterface.createMedicalFile(
     dbInstance,
     cryptographyInstance,
-    RecordModel,
+    MedicalFileModel,
     new_patient.toCensoredJson().patient_uid
   );
 
-  new_patient.addRecordUid(new_record.record_uid);
+  new_patient.addRecordUid(new_record.med_file_uid);
 
   await dbInstance.makeEntry(PatientModel, new_patient.toFormattedJson());
 

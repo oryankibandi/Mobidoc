@@ -4,7 +4,7 @@ const Cryptography = require("../helpers/cryptography");
 const DB = require("../DB/mongoDB/mongoDBInterface");
 const JWT = require("../helpers/jwt");
 const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
-const RecordModel = require("../DB/mongoDB/schema/medicalRecordsSchema");
+const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
 
 const createPatientController = async (req, res) => {
@@ -72,7 +72,7 @@ const createPatientController = async (req, res) => {
       cryptographyInstance,
       dbInstance,
       PatientModel,
-      RecordModel,
+      MedicalFileModel,
       roles,
       patientDetails
     );
@@ -307,6 +307,10 @@ const updatePatientController = async (req, res) => {
 
 const getPatientsController = async (req, res) => {
   const { user } = req;
+  const { count, page, national_id } = req.query;
+
+  const filters = {};
+  if (national_id) filters.national_id = national_id;
 
   if (user.role !== roles.doctor) {
     return res.status(401).json({
@@ -320,7 +324,9 @@ const getPatientsController = async (req, res) => {
     const data = await patientUserCaseInterface.getPatients(
       dbInstance,
       PatientModel,
-      req.query
+      filters,
+      page,
+      count
     );
 
     return res.status(200).json({
