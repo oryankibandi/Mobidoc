@@ -298,12 +298,20 @@ const updateDoctorController = async (req, res) => {
 };
 
 const getDoctorsController = async (req, res) => {
-  const { count, page, username, place_of_work, area_of_specialty } = req.query;
+  const {
+    count,
+    page,
+    username,
+    place_of_work,
+    area_of_specialty,
+    first_name,
+  } = req.query;
 
   const filters = {};
   if (username) filters.username = username;
   if (place_of_work) filters.place_of_work = place_of_work;
   if (area_of_specialty) filters.area_of_specialty = area_of_specialty;
+  if (first_name) filters.first_name = first_name;
   try {
     const dbInstance = new DB();
     const data = await doctorUserCaseInterface.getDoctors(

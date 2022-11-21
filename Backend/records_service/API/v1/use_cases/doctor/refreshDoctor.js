@@ -7,6 +7,10 @@ const refreshDoctor = async (
   refresh_token,
   refresh_token_secret
 ) => {
+  jwtInstance.on("invalidToken", (error) => {
+    throw new Error(error.message);
+  });
+
   const decoded = await jwtInstance.verify(refresh_token, refresh_token_secret);
 
   const existing_user = await dbInstance.checkInstanceByField(
