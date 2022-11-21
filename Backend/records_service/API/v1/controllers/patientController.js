@@ -307,10 +307,12 @@ const updatePatientController = async (req, res) => {
 
 const getPatientsController = async (req, res) => {
   const { user } = req;
-  const { count, page, national_id } = req.query;
+  const { count, page, national_id, first_name, last_name } = req.query;
 
   const filters = {};
   if (national_id) filters.national_id = national_id;
+  if (first_name) filters.first_name = first_name;
+  if (last_name) filters.last_name = last_name;
 
   if (user.role !== roles.doctor) {
     return res.status(401).json({

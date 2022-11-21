@@ -28,6 +28,7 @@ const getPatients = async (
     });
 
     formatted_data.results = results;
+    formatted_data.total = entries;
     if (starting_index > 0) {
       formatted_data.previous = parseInt(page) - 1;
     }

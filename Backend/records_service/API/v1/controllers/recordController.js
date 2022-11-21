@@ -128,7 +128,7 @@ const addRecordController = async (req, res) => {
 
 const getRecordsController = async (req, res) => {
   const { user } = req;
-  const { patient_uid, page, count } = req.query;
+  const { patient_uid, from, to, page, count } = req.query;
 
   if (!patient_uid) {
     return res.status(400).json({
@@ -146,6 +146,18 @@ const getRecordsController = async (req, res) => {
   const filters = {
     patient_uid: patient_uid,
   };
+
+  if (from && to) {
+    let date = { $gte: new Date(from), $lte: new Date(to) };
+    filters.date = date;
+  } else if (from && !to) {
+    let date = { $gte: new Date(from) };
+    filters.date = date;
+  } else if (!from && to) {
+    let date = { $lte: new Date(to) };
+    filters.date = date;
+  } else {
+  }
 
   try {
     const dbInstance = new DB();
