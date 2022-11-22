@@ -3,6 +3,10 @@ const openRoutes = require("../config/openRoutes");
 const JWT = require("../helpers/jwt");
 
 const verifyToken = async (req, res, next) => {
+  console.log(
+    `${req.method}, ${req.url}, ${req.headers.host}, ${req.headers["user-agent"]}`
+  );
+  console.log();
   if (openRoutes.find((e) => e === req.url)) {
     return next();
   }
