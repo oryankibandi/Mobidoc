@@ -1,8 +1,8 @@
 module.exports = [
-  "/patient/create",
-  "/patient/login",
-  "/patient/refresh",
-  "/doctor/create",
-  "/doctor/login",
-  "/doctor/refresh",
+  "/patient/create/",
+  "/patient/login/",
+  "/patient/refresh/",
+  "/doctor/create/",
+  "/doctor/login/",
+  "/doctor/refresh/",
 ];

@@ -4,9 +4,8 @@ const JWT = require("../helpers/jwt");
 
 const verifyToken = async (req, res, next) => {
   console.log(
-    `${req.method}, ${req.url}, ${req.headers.host}, ${req.headers["user-agent"]}`
+    `${req.headers["X-Forwarded-For"]}, ${req.method}, ${req.url}, ${req.headers.host}, ${req.headers["user-agent"]}, ${req.headers["X-Forwarded-For"]}`
   );
-  console.log();
   if (openRoutes.find((e) => e === req.url)) {
     return next();
   }
