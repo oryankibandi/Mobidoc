@@ -20,6 +20,7 @@ const recordRoute = require("./routes/recordRoute");
 const recordsRoute = require("./routes/recordsRoute");
 const medFileRoute = require("./routes/medFileRoute");
 const verifyToken = require("./middleware/verifyToken");
+const logRequests = require("./middleware/logRequests");
 
 const app = express();
 const numCPUs = cpus().length;
@@ -41,6 +42,7 @@ if (cluster.isPrimary) {
   app.use(cors());
   app.use(cookieParser());
 
+  app.use(logRequests);
   app.use(verifyToken);
 
   app.use("/patient", patientRoute);
