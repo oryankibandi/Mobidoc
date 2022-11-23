@@ -3,7 +3,7 @@
 UI/UX designs for the frontend for the application
 
 # Icon
-![Icon](/Assets/Icon.png "Icon Page")
+![Icon](Assets/Icon.png "Icon Page")
 # Landing
 ![Landing](/Assets/Landing_1280.png "Landing Page")
 # Register
@@ -16,7 +16,7 @@ UI/UX designs for the frontend for the application
 ![Profile](/Assets/Profile_1028.png "Profile Page")
 # Records
 ![Records](/Assets/Records_1028.png "Records Page")
-  * # Records On Doctor Click
+  # Records On Doctor Click
   ![Records Doctors](/Assets/Records_click_record_1028-1.png "Records Docators' Page")
-  * # Records On Record Click
+  # Records On Record Click
   ![Records Record](/Assets/Records_click_record_1028.png "Records Record Page")
