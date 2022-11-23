@@ -8,7 +8,7 @@ const JWT = require("../helpers/jwt");
 const roles = require("../config/roles");
 
 const getRecordControler = async (req, res) => {
-  const { record_uid } = req.params;
+  const { patient_uid, record_uid } = req.params;
   const { user } = req;
 
   if (user.role !== roles.doctor) {
@@ -24,21 +24,43 @@ const getRecordControler = async (req, res) => {
       message: "record_uid must be provided as a path parameter",
     });
   }
+  if (!patient_uid) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "patient_uid must be provided as a path parameter",
+    });
+  }
 
   //TODO: Implement: only doctors with access to a patient's record can get a patient's record
   try {
     const dbInstance = new DB();
+    const jwtInstance = new JWT();
 
-    const record = await recordUseCaseInterface.getRecord(
+    const access = await medicalFileUseCaseInterface.verifyAccess(
       dbInstance,
-      RecordModel,
-      record_uid
+      MedicalFileModel,
+      user.doctor_uid,
+      patient_uid,
+      jwtInstance,
+      process.env.RECORD_ACCESS_SECRET
     );
+    if (access) {
+      const record = await recordUseCaseInterface.getRecord(
+        dbInstance,
+        RecordModel,
+        record_uid
+      );
 
-    return res.status(200).json({
-      status: "SUCCESS",
-      data: record,
-    });
+      return res.status(200).json({
+        status: "SUCCESS",
+        data: record,
+      });
+    } else {
+      return res.status(401).json({
+        status: "ERROR",
+        message: "Unauthorized to access this record",
+      });
+    }
   } catch (error) {
     return res.status(400).json({
       status: "ERROR",

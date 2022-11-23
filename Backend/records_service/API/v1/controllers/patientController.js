@@ -138,7 +138,7 @@ const refreshPatientController = async (req, res) => {
   const { jwt } = req.cookies;
 
   if (!jwt) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: "no cookies found",
     });
@@ -156,14 +156,14 @@ const refreshPatientController = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: {
         access_token: access_token,
       },
     });
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: error.message,
     });
@@ -174,7 +174,7 @@ const logOutPatientController = async (req, res) => {
   const { jwt } = req.cookies;
 
   if (!jwt) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: "no cookies found",
     });
@@ -194,13 +194,13 @@ const logOutPatientController = async (req, res) => {
 
     dbInstance.on("modelUpdated", () => {
       res.clearCookie("jwt");
-      res.status(200).json({
+      return res.status(200).json({
         status: "SUCCESS",
         data: "log out successful",
       });
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: error.message,
     });
