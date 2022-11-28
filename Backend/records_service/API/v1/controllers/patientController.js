@@ -93,13 +93,13 @@ const authenticatePatientController = async (req, res) => {
   const credentials = req.body;
 
   if (!credentials.phone_number) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "phone_number not provided",
     });
   }
   if (!credentials.password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "password not provided",
     });
@@ -119,7 +119,7 @@ const authenticatePatientController = async (req, res) => {
     );
 
     res.cookie("jwt", data.refresh_token);
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: {
         user: data.user,
@@ -127,7 +127,7 @@ const authenticatePatientController = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       status: "ERROR",
       message: error.message,
     });

@@ -1,5 +1,5 @@
 const Events = require("node:events");
-const { randomUUID, createHmac, createHash } = require("node:crypto");
+const { randomUUID, createHash } = require("node:crypto");
 
 class Cryptography extends Events {
   constructor() {
