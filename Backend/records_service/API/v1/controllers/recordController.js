@@ -74,25 +74,25 @@ const addRecordController = async (req, res) => {
   const { user } = req;
 
   if (!record_details.symptoms) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "symptoms not provided",
     });
   }
   if (!record_details.diagnosis) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "diagnosis not provided",
     });
   }
   if (!record_details.medication) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "medication not provided",
     });
   }
   if (!record_details.patient_uid) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "patient_uid not provided",
     });

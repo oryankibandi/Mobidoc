@@ -11,55 +11,55 @@ const createPatientController = async (req, res) => {
   const patientDetails = req.body;
 
   if (!patientDetails.first_name) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "first_name not provided",
     });
   }
   if (!patientDetails.last_name) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "last_name not provided",
     });
   }
   if (!patientDetails.middle_name) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "middle_name not provided",
     });
   }
   if (!patientDetails.national_id) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "national_id not provided",
     });
   }
   if (!patientDetails.email) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "email not provided",
     });
   }
   if (!patientDetails.phone_number) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "phone_number not provided",
     });
   }
   if (!patientDetails.address) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "address not provided",
     });
   }
   if (!patientDetails.next_of_kin) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "next_of_kin not provided",
     });
   }
   if (!patientDetails.password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: "password not provided",
     });
@@ -77,12 +77,12 @@ const createPatientController = async (req, res) => {
       patientDetails
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "SUCCESS",
       data: new_patient,
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "ERROR",
       message: error.message,
     });
