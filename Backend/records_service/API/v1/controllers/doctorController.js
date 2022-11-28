@@ -63,6 +63,47 @@ const createDoctorController = async (req, res) => {
       message: "password not provided",
     });
   }
+  //credentials validation
+  if (docDetails.password.length < 8) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password should be 6 characters or more",
+    });
+  }
+  if (!RegExp("\\d").test(docDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain a number",
+    });
+  }
+
+  if (!RegExp("@").test(docDetails.email)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "invalid email",
+    });
+  }
+
+  const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  if (!special.test(docDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain special characters",
+    });
+  }
+
+  if (!RegExp("[A-Z]").test(docDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain an uppercase character",
+    });
+  }
+  if (!RegExp("[a-z]").test(docDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain a lowercase character",
+    });
+  }
 
   try {
     const dbInstance = new DB();

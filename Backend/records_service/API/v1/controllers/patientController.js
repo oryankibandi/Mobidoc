@@ -64,6 +64,54 @@ const createPatientController = async (req, res) => {
       message: "password not provided",
     });
   }
+  if (!patientDetails.password) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password should be 6 characters or more",
+    });
+  }
+
+  //credentials validation
+  if (patientDetails.password.length < 8) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password should be 6 characters or more",
+    });
+  }
+  if (!RegExp("\\d").test(patientDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain a number",
+    });
+  }
+
+  if (!RegExp("@").test(patientDetails.email)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "invalid email",
+    });
+  }
+
+  const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  if (!special.test(patientDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain special characters",
+    });
+  }
+
+  if (!RegExp("[A-Z]").test(patientDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain an uppercase character",
+    });
+  }
+  if (!RegExp("[a-z]").test(patientDetails.password)) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "password must contain a lowercase character",
+    });
+  }
 
   try {
     const dbInstance = new DB();

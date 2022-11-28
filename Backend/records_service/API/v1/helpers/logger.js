@@ -4,7 +4,9 @@ class Logger extends Events {
   constructor(req) {
     super();
     this.req = req;
-    this.now = new Date(Date.now()).toLocaleString();
+    this.now = new Date(Date.now()).toLocaleString("en-US", {
+      timeZone: "Africa/Nairobi",
+    });
   }
 
   log() {
