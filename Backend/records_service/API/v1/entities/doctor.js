@@ -60,7 +60,12 @@ class Doctor {
       role: this.role,
       username: this.username,
       email: this.email,
+      national_id: this.national_id,
     });
+  }
+
+  get doc_uid() {
+    return this.doctor_uid;
   }
 }
 

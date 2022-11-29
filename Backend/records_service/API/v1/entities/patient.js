@@ -26,7 +26,6 @@ class Patient {
     if (!patientDetails.national_id)
       throw new Error("national_id not provided");
     if (!patientDetails.role) throw new Error("role not provided");
-    // if (!patientDetails.med_file_uid) throw new Error("med_file_uid not provided");
     if (!patientDetails.email) throw new Error("email not provided");
     if (!patientDetails.phone_number)
       throw new Error("phone_number not provided");
