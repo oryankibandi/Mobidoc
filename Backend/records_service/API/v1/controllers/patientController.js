@@ -75,7 +75,7 @@ const createPatientController = async (req, res) => {
   if (patientDetails.password.length < 8) {
     return res.status(400).json({
       status: "ERROR",
-      message: "password should be 6 characters or more",
+      message: "password should be 8 characters or more",
     });
   }
   if (!RegExp("\\d").test(patientDetails.password)) {
