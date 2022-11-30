@@ -93,4 +93,33 @@ describe("Doctor Entity", () => {
 
     expect(censored_json).toEqual(expected_json);
   });
+  it("toProfileJson returns an object", () => {
+    const formatted_json = doc.toProfileJson();
+    expect(typeof formatted_json).toBe("object");
+  });
+
+  it("toProfileJson returns a frozen object", () => {
+    const formatted_json = doc.toProfileJson();
+    formatted_json.word = "asa";
+
+    expect(formatted_json.word).toBeFalsy();
+  });
+
+  it("toProfileJson returns the correct object", () => {
+    const expected_json = Object.freeze({
+      first_name: doc.first_name,
+      last_name: doc.last_name,
+      doctor_uid: doc.doctor_uid,
+      national_id: doc.national_id,
+      role: doc.role,
+      username: doc.username,
+      email: doc.email,
+      address: doc.address,
+      place_of_work: doc.place_of_work,
+      area_of_specialty: doc.area_of_specialty,
+    });
+    const censored_json = doc.toProfileJson();
+
+    expect(censored_json).toEqual(expected_json);
+  });
 });

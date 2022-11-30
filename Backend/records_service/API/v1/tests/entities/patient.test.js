@@ -102,4 +102,36 @@ describe("Patient Entity", () => {
 
     expect(censored_json).toEqual(expected_json);
   });
+
+  it("toProfileJson returns an object", () => {
+    const formatted_json = patient.toProfileJson();
+    expect(typeof formatted_json).toBe("object");
+  });
+
+  it("toProfileJson returns a frozen object", () => {
+    const formatted_json = patient.toProfileJson();
+    formatted_json.word = "asa";
+
+    expect(formatted_json.word).toBeFalsy();
+  });
+
+  it("toProfileJson returns the correct object", () => {
+    const expected_json = Object.freeze({
+      first_name: patient.first_name,
+      last_name: patient.last_name,
+      middle_name: patient.middle_name,
+      patient_uid: patient.patient_uid,
+      national_id: patient.national_id,
+      role: patient.role,
+      chat_uid: patient.chat_uid,
+      med_file_uid: patient.med_file_uid,
+      email: patient.email,
+      phone_number: patient.phone_number,
+      address: patient.address,
+      next_of_kin: patient.next_of_kin,
+    });
+    const censored_json = patient.toProfileJson();
+
+    expect(censored_json).toEqual(expected_json);
+  });
 });
