@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0cea9e55.css",
+    "main.js": "/static/js/main.37718010.js",
+    "static/media/NotoSerifKhojki-VariableFont_wght.ttf": "/static/media/NotoSerifKhojki-VariableFont_wght.759e7a693552309086c0.ttf",
+    "static/media/impact.ttf": "/static/media/impact.0294f8285a2493417c09.ttf",
+    "static/media/drawing.svg": "/static/media/drawing.fc2a2f90afebab12802331fde8730ae9.svg",
+    "static/media/Oswald-SemiBold.ttf": "/static/media/Oswald-SemiBold.7ea6b749e7a829164007.ttf",
+    "static/media/Oswald-Bold.ttf": "/static/media/Oswald-Bold.87c9feafd7b2f3fd7992.ttf",
+    "static/media/Oswald-Medium.ttf": "/static/media/Oswald-Medium.292bdf409c7b9c1c5683.ttf",
+    "static/media/Oswald-Regular.ttf": "/static/media/Oswald-Regular.e815068d369177121fd8.ttf",
+    "static/media/Rufina-Bold.ttf": "/static/media/Rufina-Bold.02cec62288c21217bddd.ttf",
+    "static/media/Rufina-Regular.ttf": "/static/media/Rufina-Regular.959d561d064c27bff867.ttf",
+    "static/media/undraw_doctors_re_8ou9.svg": "/static/media/undraw_doctors_re_8ou9.c943a5905b11d17f983dc9cd2d21e2e9.svg",
+    "static/media/analytics.svg": "/static/media/analytics.52a3f1025bd3fed8ef281b4da97bb8ce.svg",
+    "static/media/users.svg": "/static/media/users.63d3e18b4499e59689f49d62e36ad3c3.svg",
+    "static/media/hands-helping.svg": "/static/media/hands-helping.eb25f9dd5e0cf4214dfae411ce596645.svg",
+    "index.html": "/index.html",
+    "static/media/tick.svg": "/static/media/tick.95b30794a9d3616bc9668b253959cc42.svg",
+    "static/media/file-medical-alt.svg": "/static/media/file-medical-alt.4492dbc71a3ddaf2e9978c99769f7737.svg",
+    "static/media/edit.svg": "/static/media/edit.cad3b8409001ed9015c683f882fff15f.svg",
+    "static/media/sign-out-alt.svg": "/static/media/sign-out-alt.ba64d4ea79c1e28817cfd47fb664353f.svg",
+    "static/media/user.svg": "/static/media/user.d57d2a8fe7429f171b1b049695b7a68d.svg",
+    "static/media/envelope.svg": "/static/media/envelope.7dc73ad7e812edb34bfc8e98df067c31.svg",
+    "static/media/tick-1.svg": "/static/media/tick-1.b3b5cb4d2f190855fc3278687581870e.svg",
+    "static/media/monitor-heart-rate.svg": "/static/media/monitor-heart-rate.eb26452036ef15ffbfec1ba5d1efb426.svg",
+    "static/media/times.svg": "/static/media/times.7e730b4ca1010e94c44fce66681e366d.svg",
+    "static/media/bars.svg": "/static/media/bars.4eaadc7c22a07ea20ec817d856e9f166.svg",
+    "static/media/th-large.svg": "/static/media/th-large.bb73aa8a9364cbb07032517db32659dc.svg",
+    "static/media/curve.svg": "/static/media/curve.fdf7ed55f25332e9db9c6b6b8dae1859.svg",
+    "static/media/angle-right.svg": "/static/media/angle-right.8e419810e70561c5cb03cba8cd23c2f4.svg",
+    "static/media/angle-left.svg": "/static/media/angle-left.00d5c80ade3ee1d25afd3739e8b3afc0.svg",
+    "main.0cea9e55.css.map": "/static/css/main.0cea9e55.css.map",
+    "main.37718010.js.map": "/static/js/main.37718010.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0cea9e55.css",
+    "static/js/main.37718010.js"
+  ]
+}
