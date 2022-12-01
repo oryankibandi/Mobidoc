@@ -1,57 +1,143 @@
 import React, { useState } from 'react'
 import { Main } from '../css/Register'
 import { useGlobally } from "../context/context"
+import {  Link} from "react-router-dom";
+import {CheckRegistration, CheckLogin} from "../utils/Register"
 
 const Register = () => {
-  const { state, registerUser, login} = useGlobally();
+  const { state, registerUser, login, updateError} = useGlobally();
   const [body, setBody] = useState(state.body)
-  const submitData = (e) => {
-    e.preventDefault()
-    registerUser(body)
-  }
+  const [loginData, setLoginData] = useState({password:"",email:"", role:"", phone_number:""})
   const changeBody = (e) => {
+    e.preventDefault()
     const { name,value } = e.target;
     setBody({...body, [name]:value})
   }
-  const loginUser = (e)=>{
+  const changeLogin = (e) => {
     e.preventDefault();
-    login(body);
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+  }
+  const submitData = (e) => {
+    e.preventDefault();
+    const { next_of_kin_first_name,
+      next_of_kin_last_name,
+      next_of_kin_middle_name,
+      next_of_kin_relationship,
+      next_of_kin_phone_number,
+      phone_number,
+      retype_password,
+      username,
+      password,
+      place_of_work,
+      area_of_specialty, role } = body;
+    
+    const registrationData = (role === "patient") ?{
+      ...state.user,
+      next_of_kin: {
+            first_name: next_of_kin_first_name,
+            last_name: next_of_kin_last_name,
+            middle_name: next_of_kin_middle_name,
+            phone_number: next_of_kin_phone_number,
+            relationship:next_of_kin_relationship,
+      },
+      password,
+      role
+    }:{...state.user,
+          username,
+          place_of_work,
+          area_of_specialty,
+          password,
+          role
+        };
+    if (CheckRegistration(
+      next_of_kin_first_name,
+      next_of_kin_last_name,
+      next_of_kin_middle_name,
+      next_of_kin_relationship,
+      next_of_kin_phone_number,
+      phone_number,
+      retype_password,
+      username,
+      password,
+      place_of_work,
+      area_of_specialty,
+      role,
+      updateError
+    )){
+      return;
+    }
+    registerUser(registrationData);
+  };
+  const loginUser = async (e)=>{
+    e.preventDefault();
+    const { phone_number, email, password, role } = loginData 
+    const login_data =
+      role === "patient"
+        ? { phone_number, password,role }
+        : { email, password,role };
+    if (CheckLogin(phone_number, email, password, role, updateError)) {
+      return;
+    }
+    login(login_data)
   }
   return (
     <Main>
       <section className="login">
         <header>Log in</header>
+
         <form onSubmit={(e) => loginUser(e)}>
-          {body.role === "patient" ? (
-            <div>
-              <input
-                type="text"
-                placeholder="Phonenumber"
-                value={body.phone_number}
-                name="phone_number"
-                onChange={(e) => changeBody(e)}
-                required
-              ></input>
-            </div>
-          ) : (
-            <div>
-              <input
-                type="email"
-                placeholder="Email@gmail.com"
-                name="email"
-                onChange={(e) => changeBody(e)}
-                value={body.email}
-                required
-              ></input>
-            </div>
-          )}
+          <div
+            className={`${
+              state.login_err.status ? "active-error-div" : ""
+            } error-div`}
+          >
+            <p
+              className={`${state.login_err.type === "warning" ? "error" : ""}`}
+            >
+              {state.login_err.msg}
+            </p>
+          </div>
           <div>
+            <input
+              type="text"
+              placeholder="Phone Number"
+              value={loginData.phone_number}
+              name="phone_number"
+              onChange={(e) => changeLogin(e)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="email"
+              placeholder="Email@gmail.com"
+              name="email"
+              onChange={(e) => changeLogin(e)}
+              value={loginData.email}
+              required
+            ></input>
+          </div>
+          <div>
+            <select
+              name="role"
+              onChange={(e) => changeLogin(e)}
+              value={loginData.role}
+            >
+              <option value="" disabled>
+                What Are Logging in as?
+              </option>
+              <option value="doctor">Doctor</option>
+              <option value="patient">Patient</option>
+            </select>
+          </div>
+          <div className="last-div">
             <input
               type="password"
               placeholder="Password"
-              value={body.password}
+              value={loginData.password}
               name="password"
-              onChange={(e) => changeBody(e)}
+              onChange={(e) => changeLogin(e)}
               required
             ></input>
           </div>
@@ -63,6 +149,26 @@ const Register = () => {
       <section className="register">
         <header>Register</header>
         <form onSubmit={(e) => submitData(e)}>
+          <div
+            className={`${
+              state.register_err.status ? "active-error-div" : ""
+            } error-div`}
+          >
+            <p
+              className={`${
+                state.register_err.type === "warning" ? "error" : ""
+              }`}
+            >
+              {state.register_err.msg}
+            </p>
+          </div>
+          {body.role === "" && (
+            <>
+              <div className="active-error-div error-div">
+                <p className="error">Sorry, cannot sign up go back</p>
+              </div>
+            </>
+          )}
           {body.role === "patient" ? (
             <>
               <div className="header">
@@ -135,9 +241,11 @@ const Register = () => {
                   required
                 ></input>
               </div>
-              <div>
-                <input type="submit" value="Register"></input>
-              </div>
+              {body.role === "" || (
+                <div className="submit-div">
+                  <input type="submit" value="Register"></input>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -148,7 +256,6 @@ const Register = () => {
                   name="username"
                   onChange={(e) => changeBody(e)}
                   placeholder="Username"
-                  required
                 ></input>
               </div>
               <div>
@@ -158,7 +265,6 @@ const Register = () => {
                   name="place_of_work"
                   onChange={(e) => changeBody(e)}
                   placeholder="Place of work"
-                  required
                 ></input>
               </div>
               <div>
@@ -168,7 +274,6 @@ const Register = () => {
                   value={body.area_of_specialty}
                   name="area_of_specialty"
                   onChange={(e) => changeBody(e)}
-                  required
                 ></input>
               </div>
               <div>
@@ -178,7 +283,6 @@ const Register = () => {
                   name="password"
                   onChange={(e) => changeBody(e)}
                   placeholder="Password"
-                  required
                 ></input>
               </div>
               <div>
@@ -188,14 +292,19 @@ const Register = () => {
                   name="retype_password"
                   onChange={(e) => changeBody(e)}
                   placeholder="RetypePassword"
-                  required
                 ></input>
               </div>
-              <div>
-                <input type="submit" value="Register"></input>
-              </div>
+              {body.role === "" || (
+                <div className="submit-div">
+                  <input type="submit" value="Register"></input>
+                </div>
+              )}
             </>
           )}
+          <div className="go-back">
+            Made an error
+            <Link to="/choice">go back</Link>
+          </div>
         </form>
       </section>
     </Main>

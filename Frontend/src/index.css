@@ -30,6 +30,10 @@
     font-family: Impact;
     src: url('./assets/font/impact.ttf');
 }
+@font-face {
+    font-family: NotoMedium;
+    src: url('./assets/font/NotoSerifKhojki-VariableFont_wght.ttf');
+}
 *{
   outline:none;
   -webkit-box-sizing: border-box;

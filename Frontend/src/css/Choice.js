@@ -28,9 +28,9 @@ const Main = styled.main`
       ${tw`w-full m-0 z-10 cursor-pointer`}
     }
     .error-div {
-      ${tw`m-0 mb-2 h-auto`}
+      ${tw`hidden m-0 mb-2 h-auto`}
       p {
-        ${tw`flex items-center justify-between text-center mx-auto my-0 p-1 px-2 rounded-lg bg-[#FFFCF9] text-[#FFA901]`}
+        ${tw`flex items-center justify-between text-left mx-auto my-0 p-1 px-2 rounded-lg bg-[#F9FFFB] text-[#46C882]`}
         img {
           ${tw`ml-3 w-[8px]`}
         }
@@ -38,6 +38,9 @@ const Main = styled.main`
       .error {
         ${tw`bg-[#FFF9F9] text-[#E74040]`}
       }
+    }
+    .active-error-div {
+      ${tw`flex`}
     }
     div input:nth-child(2),
     div input:nth-child(3) {

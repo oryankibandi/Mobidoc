@@ -1,105 +1,64 @@
 import { actions } from "./actions";
+import { parseBody, getChoice, updatedBody } from "./Operations";
 const reducer = (state, action) => {
   switch (action.type) {
     case actions.UPDATE_BODY: {
       const { body } = action.payload;
-      const {
-        first_name,
-        last_name,
-        middle_name,
-        national_id,
-        email,
-        phone_number,
-        address_country,
-        address_county,
-        address_city,
-        address_street,
-        role,
-      } = body;
+      const { role } = body;
       localStorage.setItem("role", role);
-      if (role === "doctor") {
-        let newBody = {
-          first_name,
-          last_name,
-          national_id,
-          email,
-          address: {
-            country: address_country,
-            county: address_county,
-            city: address_city,
-            street:address_street,
-          },
-        };
-        let Data =  {...state.body, role}
-        localStorage.setItem("user", JSON.stringify(newBody));
-        return { ...state, body: Data, user: newBody };
-      } else {
-        let newBody = {
-          first_name,
-          last_name,
-          middle_name,
-          phone_number,
-          national_id,
-          email,
-          address: {
-            country: address_country,
-            county: address_county,
-            city:address_city,
-            street:address_street,
-          },
-        };
-        let Data = { ...state.body, role };
-        localStorage.setItem("user", JSON.stringify(newBody));
-        return { ...state, body:Data, user: newBody};
-      }
+      let newBody = getChoice(body);
+      let Data = { ...state.body, role };
+      localStorage.setItem("user", JSON.stringify(newBody));
+      return { ...state, body: Data, user: newBody };
     }
     case actions.REGISTER_USER: {
       const { body } = action.payload;
-      const {
-        next_of_kin_first_name,
-        next_of_kin_last_name,
-        next_of_kin_middle_name,
-        next_of_kin_phone_number,
-        next_of_kin_relationship,
-        username,
-        place_of_work,
-        area_of_specialty,
-        password,
-      } = body;
-      if (state.role === "doctor") {
-        let newBody = {
-          ...state.user,
-          username,
-          place_of_work,
-          area_of_specialty,
-        };
-
-        localStorage.setItem("user", JSON.stringify(newBody));
-        return { ...state, user: newBody };
-      } else {
-        let newBody = {
-          ...state.user,
-          next_of_kin: {
-            first_name: next_of_kin_first_name,
-            last_name: next_of_kin_last_name,
-            middle_name: next_of_kin_middle_name,
-            phone_number: next_of_kin_phone_number,
-            relationship:next_of_kin_relationship,
-          },
-        };
-
-        localStorage.setItem("user", JSON.stringify(newBody));
-        newBody["password"] = password;
-        return { ...state, user: newBody };
-      }
+      let newBody = {
+        ...body,
+      };
+      delete newBody.password;
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(newBody));
+      return { ...state, user: body };
     }
     case actions.LOGIN_USER: {
-      const {token} = action.payload
-      return { ...state, token };
+      const { token,body } = action.payload;
+      localStorage.setItem("user", JSON.stringify(body));
+      localStorage.setItem("role", body.role);
+      return { ...state, token, user: body };
+    }
+    case actions.SET_ERROR: {
+      const { err, change } = action.payload;
+      const { type, status, msg } = change;
+      return { ...state, [err]: { type, status, msg } };
+    }
+    case actions.LOGOUT_USER: {
+      const newBody = { ...state.body, role: "" };
+      return { ...state, token: "", user: {}, body: newBody };
+    }
+    case actions.EDIT_DETAILS: {
+      const { body } = action.payload;
+      const newBody = parseBody(body);
+      localStorage.setItem("role", body.role);
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(newBody));
+      return { ...state, body: body, user: body };
+    }
+    case actions.UPDATE_USER: {
+      const { body,role} = action.payload;
+      let newUser = {
+        ...body,
+        role
+      }
+      let newBody = updatedBody(body, role)
+      newUser = { ...newUser, ...state.user }
+      localStorage.setItem("user", JSON.stringify(newUser));
+      localStorage.setItem("role", role);
+      return { ...state, user: newUser, body: newBody };
     }
     default:
       return state;
   }
 };
-
+ 
 export { reducer };

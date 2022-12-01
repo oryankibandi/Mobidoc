@@ -1,4 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# assets
+/src/assets/svg/light
+/src/assets/svg/regular
+/src/assets/svg/duotone
+/src/assets/svg/brands
+/src/assets/svg/solid
 
 # dependencies
 /node_modules

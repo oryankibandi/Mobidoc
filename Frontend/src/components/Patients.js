@@ -1,14 +1,29 @@
-import React from 'react'
+import React from "react";
+import { Main } from "../css/components/Patients";
 import accept from "../assets/svg/Request/tick-1.svg";
 import cancel from "../assets/svg/Request/tick.svg";
-import { Main } from "../css/components/Doctors"
 
-const Doctors = () => {
+const Patients = () => {
   return (
     <Main>
-      <thead>
-        <tr>
-          <th>Name</th>
+      <thead
+        style={{
+          borderLeftRadius: "50px",
+        }}
+      >
+        <tr
+          style={{
+            border: "1px solid rgba(40, 40, 40, .12)",
+            borderLeftRadius: "50px",
+          }}
+        >
+          <th
+            style={{
+              borderLeftRadius: "50px",
+            }}
+          >
+            Name
+          </th>
           <th>Username</th>
           <th>Email</th>
           <th>Phone No</th>
@@ -34,14 +49,27 @@ const Doctors = () => {
           <td>0712452234</td>
           <td>
             <div className="pending">
-              <img src={accept} alt="accept" />
-              <img src={cancel} alt="cancel" />
+              <button className="request">request</button>
             </div>
           </td>
         </tr>
-      </tbody>
-      <tfoot>
         <tr>
+          <td>John Kinuthia</td>
+          <td>kibet</td>
+          <td>john@gmail.com</td>
+          <td>0712452234</td>
+          <td>
+            <div className="pending">
+              <button className="pending">pending</button>
+            </div>
+          </td>
+        </tr>
+        <tr
+          style={{
+            border: "1px solid rgba(40, 40, 40, .12)",
+            borderRadius: "10px",
+          }}
+        >
           <td>
             <button>Previous</button>
           </td>
@@ -60,9 +88,9 @@ const Doctors = () => {
             <button>Next</button>
           </td>
         </tr>
-      </tfoot>
+      </tbody>
     </Main>
   );
-}
+};
 
-export default Doctors
+export default Patients;

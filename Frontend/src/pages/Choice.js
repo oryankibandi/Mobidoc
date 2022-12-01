@@ -1,26 +1,69 @@
 import React, { useState } from 'react'
 import { Main } from "../css/Choice"
 import doctors from "../assets/svg/undraw_doctors_re_8ou9.svg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { useGlobally } from '../context/context'
+import  {CheckValidity} from "../utils/Choice"
 const Choice = () => {
-    const { state,updateMainBody } = useGlobally()
+  const { state, updateMainBody,updateError} = useGlobally()
   const [body, setBody] = useState(state.body)
+  let navigate = useNavigate()
     const updateBody = (e) => {
         const { value,name } = e.target
         setBody({...body, [name]:value})
     }
   const updateMain = (e) => {
-      e.preventDefault()
-      updateMainBody(body)
-      
+    e.preventDefault()
+    
+const {
+  first_name,
+  last_name,
+  middle_name,
+  national_id,
+  email,
+  phone_number,
+  address_country,
+  address_county,
+  address_city,
+  address_street,
+  role,
+    } = body;
+   if ( CheckValidity(first_name,
+  last_name,
+  middle_name,
+  national_id,
+  email,
+  phone_number,
+  address_country,
+  address_county,
+  address_city,
+  address_street,
+     role, updateError)) {
+     return;
+  }
+    updateMainBody(body);
+    updateError(
+      "choice_err",
+      "",
+      true,
+      "Redirecting..."
+    );
+    return setTimeout(()=>navigate("/register"),3000); 
     }
   return (
     <Main>
       <form onSubmit={(e) => updateMain(e)}>
         <header>Glad You Could Join Us</header>
-        <div className="error-div">
-          <p className="">Error occured</p>
+        <div
+          className={`${
+            state.choice_err.status ? "active-error-div" : ""
+          } error-div`}
+        >
+          <p
+            className={`${state.choice_err.type === "warning" ? "error" : ""}`}
+          >
+            {state.choice_err.msg}
+          </p>
         </div>
         <div className="first-div">
           <input
@@ -30,7 +73,6 @@ const Choice = () => {
             name="first_name"
             onChange={(e) => updateBody(e)}
             value={body.first_name}
-            required
           ></input>
           <input
             type="text"
@@ -38,7 +80,6 @@ const Choice = () => {
             name="middle_name"
             onChange={(e) => updateBody(e)}
             value={body.middle_name}
-            required
           ></input>
           <input
             type="text"
@@ -46,17 +87,11 @@ const Choice = () => {
             name="last_name"
             onChange={(e) => updateBody(e)}
             value={body.last_name}
-            required
           ></input>
         </div>
         <div>
-          <select
-            name="role"
-            onChange={(e) => updateBody(e)}
-            value={body.role}
-            required
-          >
-            <option value="" disabled required>
+          <select name="role" onChange={(e) => updateBody(e)} value={body.role}>
+            <option value="" disabled>
               What Are Logging in as?
             </option>
             <option value="doctor">Doctor</option>
@@ -70,30 +105,25 @@ const Choice = () => {
             name="email"
             onChange={(e) => updateBody(e)}
             value={body.email}
-            required
           ></input>
         </div>
         <div>
           <input
-            type="number"
-            minLength={13}
-            min={70000000}
-            placeholder="Phonenumber(starts with 7)"
+            type="text"
+            placeholder="Phonenumber(+2547***)"
             name="phone_number"
             onChange={(e) => updateBody(e)}
             value={body.phone_number}
-            required
           ></input>
         </div>
         <div>
           <input
             type="number"
             min={0}
-            placeholder="National-id"
+            placeholder="National Id"
             name="national_id"
             onChange={(e) => updateBody(e)}
             value={body.national_id}
-            required
           ></input>
         </div>
         <div>
@@ -103,7 +133,6 @@ const Choice = () => {
             name="address_country"
             onChange={(e) => updateBody(e)}
             value={body.address_country}
-            required
           ></input>
           <input
             type="text"
@@ -111,7 +140,6 @@ const Choice = () => {
             name="address_city"
             onChange={(e) => updateBody(e)}
             value={body.address_city}
-            required
           ></input>
         </div>
         <div>
@@ -121,7 +149,6 @@ const Choice = () => {
             name="address_county"
             onChange={(e) => updateBody(e)}
             value={body.address_county}
-            required
           ></input>
           <input
             type="text"
@@ -129,7 +156,6 @@ const Choice = () => {
             name="address_street"
             onChange={(e) => updateBody(e)}
             value={body.address_street}
-            required
           ></input>
         </div>
         <div style={{ cursor: "pointer" }}>
