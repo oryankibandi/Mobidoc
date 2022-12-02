@@ -18,8 +18,8 @@ const createDoctor = async (
     docDetails.email
   );
 
-  if (existing_entry_by_id) throw new Error("ID no. already registered");
-  if (existing_entry_by_email) throw new Error("Email already registered");
+  if (existing_entry_by_id || existing_entry_by_email)
+    throw new Error("ID no. or email is already registered");
 
   docDetails.doctor_uid = cryptographyInstance.generateUUID();
   docDetails.role = roles.doctor;

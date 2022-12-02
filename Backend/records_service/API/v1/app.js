@@ -12,6 +12,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const connectMongoDB = require("./DB/mongoDB/connectMongoDB");
 
+const corsOptions = require("./config/corsOptions");
+
 const patientRoute = require("./routes/patientRoute");
 const doctorRoute = require("./routes/doctorRoute");
 const doctorsRoute = require("./routes/doctorsRoute");
@@ -39,7 +41,7 @@ if (cluster.isPrimary) {
   connectMongoDB(mongoose, process.env.DATABASE_URL);
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(cors());
+  app.use(cors(corsOptions));
   app.use(cookieParser());
 
   app.use(logRequests);

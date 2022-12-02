@@ -268,7 +268,7 @@ const getPatientController = async (req, res) => {
   if (!patient_uid) {
     return res.status(402).json({
       status: "ERROR",
-      message: "patient id must be provided as a path parameter",
+      message: "patient_uid must be provided as a path parameter",
     });
   }
 
