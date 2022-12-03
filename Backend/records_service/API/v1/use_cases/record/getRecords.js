@@ -1,4 +1,3 @@
-const e = require("express");
 const Record = require("../../entities/record");
 
 const getRecords = async (
