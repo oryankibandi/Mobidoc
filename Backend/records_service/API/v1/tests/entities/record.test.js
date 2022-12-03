@@ -56,6 +56,7 @@ describe("Patient Entity", () => {
       record_uid: record.record_uid,
       record_hash: record.record_hash,
       doctor_uid: record.doctor_uid,
+      patient_uid: record.patient_uid,
       date: record.date,
       symptoms: record.symptoms,
       diagnosis: record.diagnosis,
@@ -82,6 +83,7 @@ describe("Patient Entity", () => {
     const expected_json = Object.freeze({
       record_uid: record.record_uid,
       doctor_uid: record.doctor_uid,
+      patient_uid: record.patient_uid,
       date: record.date,
       symptoms: record.symptoms,
       diagnosis: record.diagnosis,
