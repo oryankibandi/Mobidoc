@@ -3,6 +3,7 @@ const medicalFileUseCaseInterface = require("../use_cases/MedicalFile/medicalFil
 const DB = require("../DB/mongoDB/mongoDBInterface");
 const RecordModel = require("../DB/mongoDB/schema/recordsSchema");
 const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
+const DocModel = require("../DB/mongoDB/schema/doctorsSchema");
 const Cryptography = require("../helpers/cryptography");
 const JWT = require("../helpers/jwt");
 const roles = require("../config/roles");
@@ -325,6 +326,7 @@ const getRequestsController = async (req, res) => {
     const requests = await medicalFileUseCaseInterface.getRequests(
       dbInstance,
       MedicalFileModel,
+      DocModel,
       user.patient_uid
     );
 

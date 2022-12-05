@@ -63,6 +63,6 @@ module.exports = {
       jwtInstance,
       MedicalFileModel
     ),
-  getRequests: async (dbInstance, MedicalFileModel, patient_uid) =>
-    getRequests(dbInstance, MedicalFileModel, patient_uid),
+  getRequests: async (dbInstance, MedicalFileModel, DocModel, patient_uid) =>
+    getRequests(dbInstance, MedicalFileModel, DocModel, patient_uid),
 };
