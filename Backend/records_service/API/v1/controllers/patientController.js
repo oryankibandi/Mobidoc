@@ -7,6 +7,7 @@ const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
 const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
 const MessageBroker = require("../helpers/messagebroker/messageBroker");
+const amqplib = require("amqplib");
 
 const createPatientController = async (req, res) => {
   const patientDetails = req.body;
