@@ -13,7 +13,8 @@ module.exports = {
     PatientModel,
     RecordModel,
     roles,
-    patientDetails
+    patientDetails,
+    messageBroker
   ) =>
     createPatient(
       cryptographyInstance,
@@ -21,7 +22,8 @@ module.exports = {
       PatientModel,
       RecordModel,
       roles,
-      patientDetails
+      patientDetails,
+      messageBroker
     ),
   authenticatePatient: async (
     dbInstance,

@@ -13,7 +13,6 @@ const requestAccess = async (
     "patient_uid",
     patient_uid
   );
-  console.log("existing_file: ", existing_file);
 
   if (!existing_file) throw new Error("No patient file found");
 

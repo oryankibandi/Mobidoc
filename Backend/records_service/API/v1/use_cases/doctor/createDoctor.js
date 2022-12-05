@@ -5,7 +5,8 @@ const createDoctor = async (
   dbInstance,
   DocModel,
   roles,
-  docDetails
+  docDetails,
+  messageBroker
 ) => {
   const existing_entry_by_id = await dbInstance.checkInstanceByField(
     DocModel,
@@ -31,6 +32,10 @@ const createDoctor = async (
   const formatted_doctor = new_doctor.toFormattedJson();
 
   //TODO: send email to emailing service
+  messageBroker.send({
+    email: formatted_doctor.email,
+    name: formatted_doctor.first_name,
+  });
 
   await dbInstance.makeEntry(DocModel, formatted_doctor);
 

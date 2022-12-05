@@ -6,6 +6,7 @@ const JWT = require("../helpers/jwt");
 const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
 const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
+const MessageBroker = require("../helpers/messagebroker/messageBroker");
 
 const createPatientController = async (req, res) => {
   const patientDetails = req.body;
@@ -116,13 +117,19 @@ const createPatientController = async (req, res) => {
   try {
     const dbInstance = new DB();
     const cryptographyInstance = new Cryptography();
+    const messageBroker = new MessageBroker(
+      process.env.MESSAGEBROKERURL,
+      "email",
+      amqplib
+    );
     const new_patient = await patientUserCaseInterface.createPatient(
       cryptographyInstance,
       dbInstance,
       PatientModel,
       MedicalFileModel,
       roles,
-      patientDetails
+      patientDetails,
+      messageBroker
     );
 
     return res.status(200).json({

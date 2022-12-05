@@ -12,9 +12,17 @@ module.exports = {
     dbInstance,
     DocModel,
     roles,
-    docDetails
+    docDetails,
+    messageBroker
   ) =>
-    createDoctor(cryptographyInstance, dbInstance, DocModel, roles, docDetails),
+    createDoctor(
+      cryptographyInstance,
+      dbInstance,
+      DocModel,
+      roles,
+      docDetails,
+      messageBroker
+    ),
 
   authenticateDoctor: async (
     dbInstance,
