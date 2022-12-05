@@ -32,7 +32,7 @@ const createDoctor = async (
   const formatted_doctor = new_doctor.toFormattedJson();
 
   //TODO: send email to emailing service
-  messageBroker.send({
+  messageBroker.sendMessage({
     email: formatted_doctor.email,
     name: formatted_doctor.first_name,
   });

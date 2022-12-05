@@ -47,7 +47,7 @@ const createPatient = async (
 
   await dbInstance.makeEntry(PatientModel, formatted_patient);
 
-  messageBroker.send({
+  messageBroker.sendMessage({
     email: formatted_patient.email,
     name: formatted_patient.first_name,
   });
