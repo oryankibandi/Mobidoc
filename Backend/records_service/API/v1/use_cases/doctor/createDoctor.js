@@ -32,10 +32,10 @@ const createDoctor = async (
   const formatted_doctor = new_doctor.toFormattedJson();
 
   //TODO: send email to emailing service
-  messageBroker.sendMessage({
-    email: formatted_doctor.email,
-    name: formatted_doctor.first_name,
-  });
+  // messageBroker.sendMessage({
+  //   email: formatted_doctor.email,
+  //   name: formatted_doctor.first_name,
+  // });
 
   await dbInstance.makeEntry(DocModel, formatted_doctor);
 

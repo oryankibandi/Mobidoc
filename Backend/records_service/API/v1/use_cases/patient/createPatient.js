@@ -47,10 +47,10 @@ const createPatient = async (
 
   await dbInstance.makeEntry(PatientModel, formatted_patient);
 
-  messageBroker.sendMessage({
-    email: formatted_patient.email,
-    name: formatted_patient.first_name,
-  });
+  // messageBroker.sendMessage({
+  //   email: formatted_patient.email,
+  //   name: formatted_patient.first_name,
+  // });
 
   return new_patient.toCensoredJson();
 };
