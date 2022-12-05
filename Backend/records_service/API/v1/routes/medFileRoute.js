@@ -9,5 +9,6 @@ router.route("/grant").post(recordController.grantAccessController);
 router
   .route("/status/:patient_uid")
   .get(recordController.checkRequestStatusController);
+router.route("/paired").get(recordController.getPairedPatientsController);
 
 module.exports = router;

@@ -4,6 +4,7 @@ const requestAccess = require("./requestAccess");
 const grantAccess = require("./grantAccess");
 const getRequests = require("./getRequests");
 const checkRequestStatus = require("./checkRequestStatus");
+const getPairedPatients = require("./getPairedPatients");
 
 module.exports = {
   createMedicalFile: async (
@@ -72,4 +73,10 @@ module.exports = {
     doctorUid,
     patientUid
   ) => checkRequestStatus(dbInstance, MedicalFileModel, doctorUid, patientUid),
+  getPairedPatients: async (
+    dbInstance,
+    MedicalFileModel,
+    PatientModel,
+    doctorUid
+  ) => getPairedPatients(dbInstance, MedicalFileModel, PatientModel, doctorUid),
 };
