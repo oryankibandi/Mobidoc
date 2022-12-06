@@ -1,12 +1,14 @@
 #!/usr/bin/env python
-import pika
+import pika, os
+from pika.exchange_type import ExchangeType
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+url = os.environ.get('CLOUDAMQP_URL', 'amqps://swfthzpe:bTZUYRg-Gvk4uX5QzyhX2wQq2tY-cDN0@moose.rmq.cloudamqp.com/swfthzpe')
+params = pika.URLParameters(url)
+connection = pika.BlockingConnection(params)
 channel = connection.channel()
 
-channel.queue_declare(queue='hello')
+channel.exchange_declare(exchange='routing', exchange_type=ExchangeType.direct)
 
-channel.basic_publish(exchange='', routing_key='hello', body='Hello World!')
+channel.basic_publish(exchange='routing', routing_key='email', body='katongole.roy100@gmail.com')
 print(" [x] Sent 'Hello World!'")
 connection.close()
