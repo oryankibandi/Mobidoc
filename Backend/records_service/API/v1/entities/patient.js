@@ -26,7 +26,6 @@ class Patient {
     if (!patientDetails.national_id)
       throw new Error("national_id not provided");
     if (!patientDetails.role) throw new Error("role not provided");
-    // if (!patientDetails.med_file_uid) throw new Error("med_file_uid not provided");
     if (!patientDetails.email) throw new Error("email not provided");
     if (!patientDetails.phone_number)
       throw new Error("phone_number not provided");
@@ -72,6 +71,23 @@ class Patient {
       role: this.role,
       email: this.email,
       phone_number: this.phone_number,
+    });
+  }
+
+  toProfileJson() {
+    return Object.freeze({
+      first_name: this.first_name,
+      last_name: this.last_name,
+      middle_name: this.middle_name,
+      patient_uid: this.patient_uid,
+      national_id: this.national_id,
+      role: this.role,
+      chat_uid: this.chat_uid,
+      med_file_uid: this.med_file_uid,
+      email: this.email,
+      phone_number: this.phone_number,
+      address: this.address,
+      next_of_kin: this.next_of_kin,
     });
   }
 }

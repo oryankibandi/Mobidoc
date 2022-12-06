@@ -11,7 +11,7 @@ const getPatient = async (dbInstance, PatientModel, patient_uid) => {
 
   const patient_obj = new Patient(existing_user);
 
-  return patient_obj.toCensoredJson();
+  return patient_obj.toProfileJson();
 };
 
 module.exports = getPatient;

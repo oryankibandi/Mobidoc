@@ -3,8 +3,11 @@ const doctorUserCaseInterface = require("../use_cases/doctor/doctorUserCaseInter
 const DB = require("../DB/mongoDB/mongoDBInterface");
 const Cryptography = require("../helpers/cryptography");
 const DocModel = require("../DB/mongoDB/schema/doctorsSchema");
+const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
 const JWT = require("../helpers/jwt");
+const MessageBroker = require("../helpers/messagebroker/messageBroker");
+const amqplib = require("amqplib");
 
 const createDoctorController = async (req, res) => {
   const docDetails = req.body;
@@ -67,7 +70,7 @@ const createDoctorController = async (req, res) => {
   if (docDetails.password.length < 8) {
     return res.status(400).json({
       status: "ERROR",
-      message: "password should be 6 characters or more",
+      message: "password should be 8 characters or more",
     });
   }
   if (!RegExp("\\d").test(docDetails.password)) {
@@ -108,12 +111,18 @@ const createDoctorController = async (req, res) => {
   try {
     const dbInstance = new DB();
     const cryptographyInstance = new Cryptography();
+    const messageBroker = new MessageBroker(
+      process.env.MESSAGEBROKERURL,
+      "email",
+      amqplib
+    );
     const new_doctor = await doctorUserCaseInterface.createDoctor(
       cryptographyInstance,
       dbInstance,
       DocModel,
       roles,
-      docDetails
+      docDetails,
+      messageBroker
     );
 
     return res.status(200).json({
@@ -348,6 +357,21 @@ const getDoctorsController = async (req, res) => {
     first_name,
   } = req.query;
 
+  if (!req.user) {
+    return res.status(400).json({
+      status: "SUCCESS",
+      message: "unauthorized",
+    });
+  }
+  if (req.user.role === process.env.PATIENT) {
+    if (!req.user.patient_uid) {
+      return res.status(400).json({
+        status: "SUCCESS",
+        message: "unauthorized",
+      });
+    }
+  }
+
   const filters = {};
   if (username) filters.username = username;
   if (place_of_work) filters.place_of_work = place_of_work;
@@ -358,9 +382,11 @@ const getDoctorsController = async (req, res) => {
     const data = await doctorUserCaseInterface.getDoctors(
       dbInstance,
       DocModel,
+      MedicalFileModel,
       filters,
       page,
-      count
+      count,
+      req.user.patient_uid
     );
 
     return res.status(200).json({

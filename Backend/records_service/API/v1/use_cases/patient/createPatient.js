@@ -7,7 +7,8 @@ const createPatient = async (
   PatientModel,
   MedicalFileModel,
   roles,
-  patientDetails
+  patientDetails,
+  messageBroker
 ) => {
   const existing_id = await dbInstance.checkInstanceByField(
     PatientModel,
@@ -42,8 +43,14 @@ const createPatient = async (
   );
 
   new_patient.addRecordUid(new_record.med_file_uid);
+  const formatted_patient = new_patient.toFormattedJson();
 
-  await dbInstance.makeEntry(PatientModel, new_patient.toFormattedJson());
+  await dbInstance.makeEntry(PatientModel, formatted_patient);
+
+  // messageBroker.sendMessage({
+  //   email: formatted_patient.email,
+  //   name: formatted_patient.first_name,
+  // });
 
   return new_patient.toCensoredJson();
 };

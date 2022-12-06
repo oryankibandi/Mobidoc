@@ -1,4 +1,3 @@
-const e = require("express");
 const Record = require("../../entities/record");
 
 const getRecords = async (
@@ -24,7 +23,6 @@ const getRecords = async (
       filtered_query
     );
     const entries = query_results.length;
-
     if (query_results.length > 0) {
       let results = [];
       let formatted_data = {};
@@ -49,7 +47,7 @@ const getRecords = async (
       return formatted_data;
     }
 
-    return results;
+    return query_results;
   } catch (error) {
     throw error;
   }

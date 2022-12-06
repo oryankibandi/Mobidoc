@@ -3,6 +3,8 @@ const verifyAccess = require("./verifyAccess");
 const requestAccess = require("./requestAccess");
 const grantAccess = require("./grantAccess");
 const getRequests = require("./getRequests");
+const checkRequestStatus = require("./checkRequestStatus");
+const getPairedPatients = require("./getPairedPatients");
 
 module.exports = {
   createMedicalFile: async (
@@ -63,6 +65,18 @@ module.exports = {
       jwtInstance,
       MedicalFileModel
     ),
-  getRequests: async (dbInstance, MedicalFileModel, patient_uid) =>
-    getRequests(dbInstance, MedicalFileModel, patient_uid),
+  getRequests: async (dbInstance, MedicalFileModel, DocModel, patient_uid) =>
+    getRequests(dbInstance, MedicalFileModel, DocModel, patient_uid),
+  checkRequestStatus: async (
+    dbInstance,
+    MedicalFileModel,
+    doctorUid,
+    patientUid
+  ) => checkRequestStatus(dbInstance, MedicalFileModel, doctorUid, patientUid),
+  getPairedPatients: async (
+    dbInstance,
+    MedicalFileModel,
+    PatientModel,
+    doctorUid
+  ) => getPairedPatients(dbInstance, MedicalFileModel, PatientModel, doctorUid),
 };

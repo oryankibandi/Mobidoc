@@ -1,6 +1,12 @@
 const MedicalFile = require("../../entities/medicalFile");
+const Doctor = require("../../entities/doctor");
 
-const getRequests = async (dbInstance, MedicalFileModel, patient_uid) => {
+const getRequests = async (
+  dbInstance,
+  MedicalFileModel,
+  DocModel,
+  patient_uid
+) => {
   const existing_file = await dbInstance.checkInstanceByField(
     MedicalFileModel,
     "patient_uid",
@@ -17,13 +23,21 @@ const getRequests = async (dbInstance, MedicalFileModel, patient_uid) => {
   let requests = med_file.getRequests().doctors_requests;
   const formatted_req = [];
 
-  requests.forEach((req) => {
+  for (const req of requests) {
+    const doc = await dbInstance.checkInstanceByField(
+      DocModel,
+      "doctor_uid",
+      req.doctor_uid
+    );
+
+    const doc_obj = new Doctor(doc);
+
     let new_req = {
-      doctor_uid: req.doctor_uid,
+      doctor: doc_obj.toRequestsJson(),
       time: req.time,
     };
     formatted_req.push(new_req);
-  });
+  }
 
   return formatted_req;
 };

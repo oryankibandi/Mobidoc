@@ -60,7 +60,38 @@ class Doctor {
       role: this.role,
       username: this.username,
       email: this.email,
+      national_id: this.national_id,
     });
+  }
+
+  toProfileJson() {
+    return Object.freeze({
+      first_name: this.first_name,
+      last_name: this.last_name,
+      doctor_uid: this.doctor_uid,
+      national_id: this.national_id,
+      role: this.role,
+      username: this.username,
+      email: this.email,
+      address: this.address,
+      place_of_work: this.place_of_work,
+      area_of_specialty: this.area_of_specialty,
+    });
+  }
+
+  toRequestsJson() {
+    return Object.freeze({
+      first_name: this.first_name,
+      last_name: this.last_name,
+      doctor_uid: this.doctor_uid,
+      email: this.email,
+      place_of_work: this.place_of_work,
+      area_of_specialty: this.area_of_specialty,
+    });
+  }
+
+  get doc_uid() {
+    return this.doctor_uid;
   }
 }
 

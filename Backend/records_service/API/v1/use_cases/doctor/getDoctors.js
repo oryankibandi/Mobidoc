@@ -3,9 +3,11 @@ const Doctor = require("../../entities/doctor");
 const getDoctors = async (
   dbInstance,
   DocModel,
+  MedicalFileModel,
   filters,
   page = 1,
-  count = 10
+  count = 10,
+  patientUid = null
 ) => {
   let filtered_query = {};
   for (const [key, value] of Object.entries(filters)) {
@@ -17,6 +19,19 @@ const getDoctors = async (
     }
   }
 
+  let patient_medical_file;
+  let doctors_with_access;
+  if (patientUid) {
+    patient_medical_file = await dbInstance.checkInstanceByField(
+      MedicalFileModel,
+      "patient_uid",
+      patientUid
+    );
+
+    doctors_with_access = patient_medical_file.doctors_with_access.map(
+      (doct) => doct.doctor_uid
+    );
+  }
   const data = await dbInstance.findMany(DocModel, filtered_query);
 
   const entries = data.length;
@@ -31,14 +46,40 @@ const getDoctors = async (
       results.push(new_doc.toCensoredJson());
     });
 
-    formatted_data.results = results;
+    if (patientUid) {
+      const formatted_results = [];
+      results.forEach((res) => {
+        if (doctors_with_access.includes(res.doctor_uid)) {
+          let doc = {
+            doctor: res,
+            has_access: true,
+          };
+          formatted_results.push(doc);
+        } else {
+          let doc = {
+            doctor: res,
+            has_access: false,
+          };
+          formatted_results.push(doc);
+        }
+      });
+
+      formatted_data.results = formatted_results;
+    } else {
+      formatted_data.results = results;
+    }
+
     formatted_data.total = entries;
     if (starting_index > 0) {
       formatted_data.previous = parseInt(page) - 1;
+    } else {
+      formatted_data.previous = null;
     }
 
     if (final_index < entries) {
       formatted_data.next = parseInt(page) + 1;
+    } else {
+      formatted_data.next = null;
     }
 
     return formatted_data;

@@ -6,6 +6,8 @@ const JWT = require("../helpers/jwt");
 const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
 const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
 const roles = require("../config/roles");
+const MessageBroker = require("../helpers/messagebroker/messageBroker");
+const amqplib = require("amqplib");
 
 const createPatientController = async (req, res) => {
   const patientDetails = req.body;
@@ -75,7 +77,7 @@ const createPatientController = async (req, res) => {
   if (patientDetails.password.length < 8) {
     return res.status(400).json({
       status: "ERROR",
-      message: "password should be 6 characters or more",
+      message: "password should be 8 characters or more",
     });
   }
   if (!RegExp("\\d").test(patientDetails.password)) {
@@ -116,13 +118,19 @@ const createPatientController = async (req, res) => {
   try {
     const dbInstance = new DB();
     const cryptographyInstance = new Cryptography();
+    const messageBroker = new MessageBroker(
+      process.env.MESSAGEBROKERURL,
+      "email",
+      amqplib
+    );
     const new_patient = await patientUserCaseInterface.createPatient(
       cryptographyInstance,
       dbInstance,
       PatientModel,
       MedicalFileModel,
       roles,
-      patientDetails
+      patientDetails,
+      messageBroker
     );
 
     return res.status(200).json({
@@ -268,7 +276,7 @@ const getPatientController = async (req, res) => {
   if (!patient_uid) {
     return res.status(402).json({
       status: "ERROR",
-      message: "patient id must be provided as a path parameter",
+      message: "patient_uid must be provided as a path parameter",
     });
   }
 

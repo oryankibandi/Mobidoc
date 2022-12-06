@@ -3,6 +3,8 @@ const medicalFileUseCaseInterface = require("../use_cases/MedicalFile/medicalFil
 const DB = require("../DB/mongoDB/mongoDBInterface");
 const RecordModel = require("../DB/mongoDB/schema/recordsSchema");
 const MedicalFileModel = require("../DB/mongoDB/schema/medicalFilesSchema");
+const PatientModel = require("../DB/mongoDB/schema/patientsSchema");
+const DocModel = require("../DB/mongoDB/schema/doctorsSchema");
 const Cryptography = require("../helpers/cryptography");
 const JWT = require("../helpers/jwt");
 const roles = require("../config/roles");
@@ -325,12 +327,102 @@ const getRequestsController = async (req, res) => {
     const requests = await medicalFileUseCaseInterface.getRequests(
       dbInstance,
       MedicalFileModel,
+      DocModel,
       user.patient_uid
     );
 
     return res.status(200).json({
       status: "SUCCESS",
       data: requests,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const checkRequestStatusController = async (req, res) => {
+  const { doctor_uid } = req.user;
+  const { role } = req.user;
+  const { patient_uid } = req.params;
+
+  if (!doctor_uid) {
+    console.log("doc_uid not found");
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unauthorized",
+    });
+  }
+
+  if (!patient_uid) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: "patient_uid not provided as a path parameter",
+    });
+  }
+
+  if (role !== parseInt(process.env.DOCTOR)) {
+    console.log("role is not doctor");
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unauthorized",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+
+    const access = await medicalFileUseCaseInterface.checkRequestStatus(
+      dbInstance,
+      MedicalFileModel,
+      doctor_uid,
+      patient_uid
+    );
+
+    return res.status(200).json({
+      status: access.toUpperCase(),
+      data: access,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
+const getPairedPatientsController = async (req, res) => {
+  const { doctor_uid } = req.user;
+  const { role } = req.user;
+
+  if (!doctor_uid) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unauthorized",
+    });
+  }
+
+  if (!role) {
+    return res.status(401).json({
+      status: "ERROR",
+      message: "unauthorized",
+    });
+  }
+
+  try {
+    const dbInstance = new DB();
+    const patients = await medicalFileUseCaseInterface.getPairedPatients(
+      dbInstance,
+      MedicalFileModel,
+      PatientModel,
+      doctor_uid
+    );
+
+    return res.status(200).json({
+      status: "SUCCESS",
+      data: patients,
     });
   } catch (error) {
     return res.status(400).json({
@@ -347,4 +439,6 @@ module.exports = {
   requestAccessController,
   grantAccessController,
   getRequestsController,
+  checkRequestStatusController,
+  getPairedPatientsController,
 };

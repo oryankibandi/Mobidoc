@@ -12,9 +12,17 @@ module.exports = {
     dbInstance,
     DocModel,
     roles,
-    docDetails
+    docDetails,
+    messageBroker
   ) =>
-    createDoctor(cryptographyInstance, dbInstance, DocModel, roles, docDetails),
+    createDoctor(
+      cryptographyInstance,
+      dbInstance,
+      DocModel,
+      roles,
+      docDetails,
+      messageBroker
+    ),
 
   authenticateDoctor: async (
     dbInstance,
@@ -62,6 +70,22 @@ module.exports = {
     getDoctor(dbInstance, DocModel, doctor_uid),
   updateDoctor: async (dbInstance, DocModel, doctor_uid, new_values) =>
     updateDoctor(dbInstance, DocModel, doctor_uid, new_values),
-  getDoctors: async (dbInstance, DocModel, filters, page, count) =>
-    getDoctors(dbInstance, DocModel, filters, page, count),
+  getDoctors: async (
+    dbInstance,
+    DocModel,
+    MedicalFileModel,
+    filters,
+    page,
+    count,
+    patientUid
+  ) =>
+    getDoctors(
+      dbInstance,
+      DocModel,
+      MedicalFileModel,
+      filters,
+      page,
+      count,
+      patientUid
+    ),
 };

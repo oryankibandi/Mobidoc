@@ -11,7 +11,7 @@ const getDoctor = async (dbInstance, DocModel, doctor_uid) => {
 
   const doc_object = new Doctor(existing_user);
 
-  return doc_object.toCensoredJson();
+  return doc_object.toProfileJson();
 };
 
 module.exports = getDoctor;
