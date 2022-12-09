@@ -90,7 +90,11 @@ const {
           ></input>
         </div>
         <div>
-          <select name="role" onChange={(e) => updateBody(e)} value={body.role}>
+          <select
+            name="role"
+            onChange={(e) => updateBody(e)}
+            value={body.role ? body.role : ""}
+          >
             <option value="" disabled>
               What Are Logging in as?
             </option>
@@ -159,7 +163,11 @@ const {
           ></input>
         </div>
         <div style={{ cursor: "pointer" }}>
-          <input type="submit" value="Next"></input>
+          <input
+            type="submit"
+            value="Next"
+            style={{ cursor: "pointer" }}
+          ></input>
         </div>
         <div className="goto">
           <p>

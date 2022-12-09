@@ -1,26 +1,24 @@
 import React from 'react'
+import { useGlobally } from '../context/context';
 import { Main } from "../css/components/Record"
 
 const Record = () => {
+  const { state } = useGlobally()
+  const time = new Date(state.CurrentRecord.date).toLocaleDateString();
   return (
-    <Main>
+    <Main key={state.CurrentRecord.record_uid}>
       <div className="title">
-        <p>List group item heading</p>
-        <p className="date">Thursady, 12/21/2022</p>
+        <p>{state.CurrentRecord.diagnosis.condition}</p>
+        <p className="date">{time}</p>
       </div>
-      <div className="body">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui nulla hic
-        id iure aperiam aliquid? Sunt nemo commodi fuga, rem eaque incidunt
-        accusantium cumque voluptates eveniet dolorem quasi nam minima?
-      </div>
+      <div className="body">{state.CurrentRecord.diagnosis.description}</div>
       <div className="details">
         <div className="symptom">
           <p>symptoms</p>
           <ul>
-            <li>Diarrrhoea</li>
-            <li>Headeache</li>
-            <li>Vomiting</li>
-            <li>Back pain</li>
+            {state.CurrentRecord.symptoms.map((item) => (
+              <li>{item}</li>
+            ))}
           </ul>
         </div>
         <div className="medic">
@@ -30,19 +28,14 @@ const Record = () => {
               <th>name</th>
               <th>dosage</th>
             </tr>
-            <tr>
-              <td>Capsules</td>
-              <td>2*3</td>
-            </tr>
-            <tr>
-              <td>Capsules</td>
-              <td>2*3</td>
-            </tr>
+            {state.CurrentRecord.medication.map((item) => (
+              <tr>
+                <td>{item.name}</td>
+                <td>{item.dosage}</td>
+              </tr>
+            ))}
           </table>
         </div>
-      </div>
-      <div className="footer">
-        <p>By Dr. Stephen</p>
       </div>
     </Main>
   );

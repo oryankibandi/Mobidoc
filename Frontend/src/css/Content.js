@@ -15,7 +15,8 @@ import {
 } from "../assets/svg/ContentLight";
 
 const Sidebar = styled.section`
-  ${tw`relative hidden w-full bg-white max-w-[100px] h-screen sm:block md:max-w-[200px]`}
+  ${tw`relative transition-all w-full bg-white max-w-[100px] h-screen sm:block md:max-w-[200px] `}
+  
   header {
     ${tw`w-full text-center uppercase p-4 pt-6 text-[18px] md:text-[25px]`}
     font-family:Impact;
@@ -55,7 +56,7 @@ const Sidebar = styled.section`
   ul {
     .active-ul {
       ${tw`bg-[#0C0B19] text-white hover:bg-[#0C0B19]`}
-      div{
+      div {
         ${tw`hover:bg-transparent`}
       }
       .overview {
@@ -72,6 +73,9 @@ const Sidebar = styled.section`
       }
     }
   }
+  .sidebar-out {
+    ${tw`hidden`}
+  }
   div {
     font-family: RufinaBold;
     ${tw`absolute cursor-pointer left-[calc(50% - 25px)] bottom-[20px] w-[50px] h-[50px] text-[#06B6D4] flex items-center justify-center  mb-[8px] rounded-xl md:rounded-lg md:left-[calc(50% - 80px)] md:h-[50px] md:w-[180px] md:pl-5 md:justify-start hover:bg-[#F6FBFB]`}
@@ -85,9 +89,9 @@ const Sidebar = styled.section`
 `;
 const Body = styled.section`
   ${tw`relative overflow-y-scroll h-screen w-full sm:w-[calc(100vw - 100px)] md:w-[calc(100vw - 200px)]`}
-  .menu{
+  .menu {
     ${tw`absolute top-[3%] left-[16px] w-[30px] h-[30px]`}
-    img{
+    img {
       ${tw`w-full h-full`}
     }
   }
@@ -95,8 +99,11 @@ const Body = styled.section`
 
 const Main = styled.main`
   ${tw`relative h-screen max-w-[1440px] flex  items-center justify-center  bg-[#F9F9F9]`}
+  .active-full {
+    ${tw`w-full`}
+  }
   .doctors-popup {
-    ${tw`hidden absolute overflow-x-scroll pt-[100px] z-20 flex items-start justify-center w-full h-full bg-[rgba(40,40,40,.65)] top-0 left-0`}
+    ${tw`hidden absolute overflow-x-scroll pt-[60px] z-20 flex items-center justify-start w-screen min-h-screen bg-[rgba(40,40,40,.65)] top-0 left-0 sm:pt-[100px] lg:justify-center`}
     *::-webkit-scrollbar-thumb {
       background-color: white;
     }
@@ -105,7 +112,13 @@ const Main = styled.main`
     }
   }
   .active-popup {
-    ${tw`flex`}
+    ${tw`flex z-40`}
+  }
+  .loading-states {
+    ${tw`w-full h-screen m-0 p-0 flex items-center justify-center `}
+    img {
+      ${tw`animate-spin w-[50px] h-[50px] md:w-[80px] md:h-[80px]`}
+    }
   }
 `;
 

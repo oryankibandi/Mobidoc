@@ -3,21 +3,37 @@ import tw from "twin.macro";
 
 const Main = styled.main`
   ${tw`w-full pt-0 overflow-y-scroll h-screen`}
+  .inform-div {
+    ${tw`hidden absolute left-[50%] top-[30px] h-auto w-fit text-[18px] m-0 mx-auto mb-4 p-0 p-2 rounded-xl`}
+    p {
+      ${tw`p-0 m-0 `}
+    }
+  }
+  .inform {
+    ${tw`block bg-blue-50 text-blue-300`}
+  }
+  .success {
+    ${tw`block bg-[#C4F9E2] text-[#004434]`}
+  }
+
+  .warning {
+    ${tw`block bg-[#FFF0F0] text-[#BC1C21]`}
+  }
   header {
     ${tw`m-0 ml-[80px] w-[calc(100% - 80px)] px-4 mt-4 flex justify-between items-center`}
     div {
       ${tw`flex items-center`}
     }
     .dark {
-      ${tw`w-[120px] px-1 flex justify-between items-center`}
+      ${tw`w-[85px] px-1 flex justify-between items-center text-[13px] sm:w-[120px] sm:text-[15px]`}
     }
     .welcome {
       ${tw`flex-col items-start justify-around`}
       p {
-        ${tw`p-0 text-[20px] text-[rgba(40,40,40,.9)] m-0`}
+        ${tw`p-0 text-[15px] text-[rgba(40,40,40,.9)] m-0 sm:text-[20px]`}
       }
       .subtitle {
-        ${tw`text-[15px]`}
+        ${tw`text-[10px] sm:text-[15px]`}
         font-family:RufinaRegular;
       }
     }
@@ -66,7 +82,7 @@ const Main = styled.main`
         ${tw`w-full m-0 mb-4 p-0 text-[20px] text-start text-[rgba(40,40,40,8)]`}
       }
       .requests {
-        ${tw`p-0 p-2 pt-4 px-8 max-h-[300px] overflow-y-scroll rounded-lg flex bg-white items-start justify-start flex-col`}
+        ${tw`p-0 p-2 pt-4 px-8 h-[300px] overflow-y-scroll rounded-lg flex bg-white items-start justify-start flex-col`}
         ::-webkit-scrollbar-thumb {
           ${tw`rounded-lg`}
           background-color: rgb(71, 70, 70,.3);

@@ -8,7 +8,7 @@ export const CheckValidity = (first_name,
   address_county,
   address_city,
   address_street,
-  role,updateError)=>{
+    role, updateError) => {
     if (
         !first_name ||
         !last_name ||

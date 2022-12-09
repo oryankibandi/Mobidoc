@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Main } from '../css/Register'
 import { useGlobally } from "../context/context"
-import {  Link} from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import {CheckRegistration, CheckLogin} from "../utils/Register"
+import spinner from "../assets/svg/content-white/spinner.svg"
 
 const Register = () => {
   const { state, registerUser, login, updateError} = useGlobally();
   const [body, setBody] = useState(state.body)
-  const [loginData, setLoginData] = useState({password:"",email:"", role:"", phone_number:""})
+  const [loginData, setLoginData] = useState({
+    password: state.body.password ? state.body.password : "",
+    email: state.body.email ? state.body.email : "",
+    role: state.body.role ? state.body.role : "",
+    phone_number: state.body.phone_number ? state.body.phone_number : "",
+  });
+  const navigate = useNavigate()
   const changeBody = (e) => {
     e.preventDefault()
     const { name,value } = e.target;
@@ -31,7 +38,25 @@ const Register = () => {
       password,
       place_of_work,
       area_of_specialty, role } = body;
-    
+    if (
+      CheckRegistration(
+        next_of_kin_first_name,
+        next_of_kin_last_name,
+        next_of_kin_middle_name,
+        next_of_kin_relationship,
+        next_of_kin_phone_number,
+        phone_number,
+        retype_password,
+        username,
+        password,
+        place_of_work,
+        area_of_specialty,
+        role,
+        updateError
+      )
+    ) {
+      return;
+    }
     const registrationData = (role === "patient") ?{
       ...state.user,
       next_of_kin: {
@@ -50,37 +75,35 @@ const Register = () => {
           password,
           role
         };
-    if (CheckRegistration(
-      next_of_kin_first_name,
-      next_of_kin_last_name,
-      next_of_kin_middle_name,
-      next_of_kin_relationship,
-      next_of_kin_phone_number,
-      phone_number,
-      retype_password,
-      username,
-      password,
-      place_of_work,
-      area_of_specialty,
-      role,
-      updateError
-    )){
-      return;
-    }
+    
     registerUser(registrationData);
   };
   const loginUser = async (e)=>{
-    e.preventDefault();
+    e.preventDefault()
     const { phone_number, email, password, role } = loginData 
-    const login_data =
-      role === "patient"
-        ? { phone_number, password,role }
-        : { email, password,role };
+
     if (CheckLogin(phone_number, email, password, role, updateError)) {
+       
       return;
     }
+    const login_data =
+      role === "patient"
+        ? { phone_number, password, role }
+        : { email, password, role };
     login(login_data)
   }
+
+  useEffect(() => {
+    if (state.token && state.user) {
+      updateError(
+        "login_err",
+        "",
+        true,
+        "Successfully Logged in.Redirecting..."
+      );
+      setTimeout(() => navigate(`/${state.user.user_id}/`), 3000);
+    }
+  }, [state.token,state.user, navigate]);
   return (
     <Main>
       <section className="login">
@@ -137,16 +160,26 @@ const Register = () => {
               placeholder="Password"
               value={loginData.password}
               name="password"
+              autoComplete="on"
               onChange={(e) => changeLogin(e)}
               required
             ></input>
           </div>
-          <div>
-            <input type="submit" value="login"></input>
+          <div className="login-div">
+            <input
+              type="submit"
+              value={!state.startLogin ? "login" : ""}
+            ></input>
+            {state.startLogin && (
+              <img className="loginSpinner" src={spinner} alt="spinner" />
+            )}
           </div>
         </form>
       </section>
       <section className="register">
+        {body.role && <div className="information">
+          <p className="error">Please, Finish your registration before you login</p>
+        </div>}
         <header>Register</header>
         <form onSubmit={(e) => submitData(e)}>
           <div
@@ -162,7 +195,7 @@ const Register = () => {
               {state.register_err.msg}
             </p>
           </div>
-          {body.role === "" && (
+          {!body.role && (
             <>
               <div className="active-error-div error-div">
                 <p className="error">Sorry, cannot sign up go back</p>
@@ -228,6 +261,7 @@ const Register = () => {
                   name="password"
                   onChange={(e) => changeBody(e)}
                   placeholder="Password"
+                  autoComplete="on"
                   required
                 ></input>
               </div>
@@ -238,10 +272,11 @@ const Register = () => {
                   name="retype_password"
                   onChange={(e) => changeBody(e)}
                   placeholder="RetypePassword"
+                  autoComplete="on"
                   required
                 ></input>
               </div>
-              {body.role === "" || (
+              {!body.role || (
                 <div className="submit-div">
                   <input type="submit" value="Register"></input>
                 </div>
@@ -283,6 +318,7 @@ const Register = () => {
                   name="password"
                   onChange={(e) => changeBody(e)}
                   placeholder="Password"
+                  autoComplete="on"
                 ></input>
               </div>
               <div>
@@ -292,9 +328,10 @@ const Register = () => {
                   name="retype_password"
                   onChange={(e) => changeBody(e)}
                   placeholder="RetypePassword"
+                  autoComplete="on"
                 ></input>
               </div>
-              {body.role === "" || (
+              {!body.role || (
                 <div className="submit-div">
                   <input type="submit" value="Register"></input>
                 </div>

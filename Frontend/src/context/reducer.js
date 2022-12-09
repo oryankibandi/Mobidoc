@@ -1,61 +1,74 @@
 import { actions } from "./actions";
-import { parseBody, getChoice, updatedBody } from "./Operations";
+
 const reducer = (state, action) => {
   switch (action.type) {
     case actions.UPDATE_BODY: {
-      const { body } = action.payload;
-      const { role } = body;
-      localStorage.setItem("role", role);
-      let newBody = getChoice(body);
-      let Data = { ...state.body, role };
-      localStorage.setItem("user", JSON.stringify(newBody));
-      return { ...state, body: Data, user: newBody };
+      const { body, user } = action.payload;
+      return { ...state, body, user };
     }
     case actions.REGISTER_USER: {
-      const { body } = action.payload;
-      let newBody = {
-        ...body,
-      };
-      delete newBody.password;
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(newBody));
-      return { ...state, user: body };
+      const { body, newBody } = action.payload;
+      return { ...state, user: body, body: newBody };
     }
     case actions.LOGIN_USER: {
-      const { token,body } = action.payload;
-      localStorage.setItem("user", JSON.stringify(body));
-      localStorage.setItem("role", body.role);
-      return { ...state, token, user: body };
+      const { token, startLogin } = action.payload;
+      return { ...state, token, startLogin };
+    }
+    case actions.LOGIN_FAIL: {
+      const { startLogin } = action.payload;
+      return { ...state, startLogin };
     }
     case actions.SET_ERROR: {
       const { err, change } = action.payload;
-      const { type, status, msg } = change;
-      return { ...state, [err]: { type, status, msg } };
+      return { ...state, [err]: change };
     }
     case actions.LOGOUT_USER: {
-      const newBody = { ...state.body, role: "" };
+      const newBody = { ...state.body, role: null };
       return { ...state, token: "", user: {}, body: newBody };
     }
     case actions.EDIT_DETAILS: {
       const { body } = action.payload;
-      const newBody = parseBody(body);
-      localStorage.setItem("role", body.role);
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(newBody));
       return { ...state, body: body, user: body };
     }
-    case actions.UPDATE_USER: {
-      const { body,role} = action.payload;
-      let newUser = {
-        ...body,
-        role
+    case actions.TOGGLE_DOCTORS_RECORD: {
+      const { status, type } = action.payload;
+      if (type === "") {
+        return {
+          ...state,
+          viewCreatePatient: status,
+          viewDoctors: status,
+          viewRecord: status,
+        };
+      } else {
+        return { ...state, [type]: status };
       }
-      let newBody = updatedBody(body, role)
-      newUser = { ...newUser, ...state.user }
-      localStorage.setItem("user", JSON.stringify(newUser));
-      localStorage.setItem("role", role);
-      return { ...state, user: newUser, body: newBody };
     }
+    case actions.SET_OBJECT_DATA: {
+      const { data, type } = action.payload
+      return { ...state , [type]: data}
+    } case actions.UPDATE_PAGE: {
+      const { page } = action.payload;
+      return { ...state, page };
+    }
+    case actions.SET_LOADING: {
+      const {loading} = action.payload
+      return {...state, loading}
+    } case actions.UPDATE_REQUESTS: {
+      const { requests } = action.payload
+      return { ...state, requests };
+    }
+    case actions.SET_CURRENT_RECORD: {
+      const { CurrentRecord } = action.payload;
+      return { ...state, CurrentRecord };
+    }
+    case actions.SET_ACCEPTED_PATIENTS: {
+      const { acceptedPatients } = action.payload
+      return { ...state, acceptedPatients };
+    }
+    case actions.SET_CURRENT_EDIT: {
+      const { pat } = action.payload;
+      return { ...state, patientEDIT: pat };
+      }
     default:
       return state;
   }
