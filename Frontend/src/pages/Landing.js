@@ -9,6 +9,9 @@ import {
   AnotherSection,
   ShortSection,
   Footer,
+  Services,
+  MainFaq,
+  Preview,
 } from "../css/Landing.js";
 import drawing from "../assets/svg/drawing.svg";
 import menu from "../assets/svg/content-white/bars.svg";
@@ -41,8 +44,8 @@ function Landing() {
     setActive(!active)
   }
   return (
-    <Body>
-      <section className={`dropdown-div ${active && "active-div"}`}>
+    <Body className={`${active && "active-div"}`}>
+      <section className={`${active && "active-dropdown"} dropdown-div`}>
         <div
           onClick={(e) => {
             setActive(!active);
@@ -117,7 +120,7 @@ function Landing() {
           <Img className="position-absolute" src={drawing} alt="An drawing" />
         </div>
       </MainSection>
-      <AnotherSection>
+      <Services>
         <header className="title">Services</header>
         <div className="services">
           {services.map((item) => {
@@ -133,7 +136,7 @@ function Landing() {
             );
           })}
         </div>
-      </AnotherSection>
+      </Services>
       <AnotherSection id="about" ref={aboutSection}>
         <header className="title">About</header>
         <div className="details">
@@ -153,14 +156,14 @@ function Landing() {
           <img src={about} alt="about" />
         </div>
       </AnotherSection>
-      <AnotherSection>
+      <MainFaq>
         <header className="title">FAQ</header>
         <div className="faq">
           {data.map((item) => {
             return <Faq {...item} />;
           })}
         </div>
-      </AnotherSection>
+      </MainFaq>
       <ShortSection ref={contactSection}>
         <header class="title">Team</header>
         <div className="links">
@@ -170,13 +173,13 @@ function Landing() {
               <div className="individial">
                 <p>{name}</p>
                 <div className="socials">
-                  <Link to={twitter}>
+                  <Link to={twitter} target="_blank" rel="noopener noreferrer">
                     <AiFillTwitterCircle className="link" />
                   </Link>
-                  <Link to={linked}>
+                  <Link to={linked} target="_blank" rel="noopener noreferrer">
                     <AiFillLinkedin className="link" />
                   </Link>
-                  <Link to={github}>
+                  <Link to={github} target="_blank" rel="noopener noreferrer">
                     <AiFillGithub className="link" />
                   </Link>
                 </div>
@@ -186,7 +189,7 @@ function Landing() {
         </div>
       </ShortSection>
 
-      <AnotherSection>
+      <Preview>
         <header className="title">Preview</header>
         <div className="video">
           <Player
@@ -196,7 +199,7 @@ function Landing() {
             height="100%"
           />
         </div>
-      </AnotherSection>
+      </Preview>
       <Footer>
         <div className="body">
           <div className="details">

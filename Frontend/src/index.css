@@ -59,3 +59,8 @@ body {
   background:#ffffff;
   font-family:OswaldBold;
 }
+.active-div {
+    overflow-y:hidden;
+    
+}
+

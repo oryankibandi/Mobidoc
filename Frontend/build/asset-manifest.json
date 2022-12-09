@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.0cea9e55.css",
-    "main.js": "/static/js/main.66d11d66.js",
+    "main.css": "/static/css/main.ba218813.css",
+    "main.js": "/static/js/main.30a1661f.js",
     "static/media/NotoSerifKhojki-VariableFont_wght.ttf": "/static/media/NotoSerifKhojki-VariableFont_wght.759e7a693552309086c0.ttf",
     "static/media/impact.ttf": "/static/media/impact.0294f8285a2493417c09.ttf",
     "static/media/drawing.svg": "/static/media/drawing.fc2a2f90afebab12802331fde8730ae9.svg",
@@ -35,11 +35,11 @@
     "static/media/caret-down.svg": "/static/media/caret-down.9c09280a62e026cb2ee4f6d510111d96.svg",
     "static/media/caret-up.svg": "/static/media/caret-up.bd57f27e50e49be86833bde8c41c5cf7.svg",
     "static/media/angle-left.svg": "/static/media/angle-left.00d5c80ade3ee1d25afd3739e8b3afc0.svg",
-    "main.0cea9e55.css.map": "/static/css/main.0cea9e55.css.map",
-    "main.66d11d66.js.map": "/static/js/main.66d11d66.js.map"
+    "main.ba218813.css.map": "/static/css/main.ba218813.css.map",
+    "main.30a1661f.js.map": "/static/js/main.30a1661f.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cea9e55.css",
-    "static/js/main.66d11d66.js"
+    "static/css/main.ba218813.css",
+    "static/js/main.30a1661f.js"
   ]
 }
