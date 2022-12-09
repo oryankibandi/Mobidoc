@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import tw from "twin.macro"
+import styled from "styled-components";
+import tw from "twin.macro";
 
 const Main = styled.main`
   ${tw`w-full pt-4 flex flex-col items-center`}
@@ -130,7 +130,7 @@ const Main = styled.main`
         ${tw`w-full bg-white p-8 px-4 rounded-lg`}
       }
       .doctor {
-        ${tw`w-full mb-4 bg-white flex justify-between`}
+        ${tw`w-full mb-4 p-4 bg-white flex justify-between rounded`}
         font-family:RufinaRegular;
         .details {
           ${tw`pl-4`}
@@ -144,32 +144,28 @@ const Main = styled.main`
               font-family:RufinaBold;
             }
           }
-        }
-        .pending {
-          ${tw`flex items-center justify-evenly`}
-          img {
-            ${tw`w-[20px] cursor-pointer`}
-          }
-          .add {
-            ${tw`flex items-center justify-center w-[22px] h-[22px] bg-white`}
-            img {
-              ${tw`w-[15px] cursor-pointer md:w-[20px]`}
+          .detail-inner {
+            ${tw`flex flex-col md:justify-between md:flex-row`}
+            p:last-child {
+              ${tw`ml-3`}
             }
           }
-          button {
-            ${tw`p-1 text-[15px] rounded-lg border-none bg-[#FFFCF9] text-[#FFA901]`}
-            font-family:RufinaRegular;
-          }
-          .declined {
-            ${tw`bg-[#FFF9F9] text-[#E74040]`}
-          }
-          .pending {
-            ${tw`bg-[#F9FFFF] text-[#24A8FA]`}
+        }
+        .pending {
+          ${tw`flex items-center justify-center z-20`}
+          .add {
+            ${tw`cursor-pointer flex items-center justify-center w-[30px] h-[30px] bg-[#24A8FA] rounded`}
+            img {
+              ${tw`w-[15px] cursor-pointer md:w-[18px]`}
+            }
           }
           .request {
             ${tw`bg-[#24A8FA] text-[#fff] rounded-lg  p-0 p-2 pt-1`}
           }
         }
+      }
+      .active-doc {
+        ${tw`bg-[rgba(40,40,40,.1)]`}
       }
       .view-all {
         ${tw`w-full flex items-center justify-center`}
@@ -181,4 +177,4 @@ const Main = styled.main`
   }
 `;
 
-export {Main}
+export { Main };

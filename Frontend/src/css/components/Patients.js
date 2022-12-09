@@ -3,7 +3,7 @@ import tw from "twin.macro";
 
 const Main = styled.table`
   font-family: RufinaRegular;
-  ${tw`bg-white w-[calc(100% - 32px)] rounded-xl m-4 ml-0 border border-[#FAFAFA] border-collapse`}
+  ${tw`bg-white  min-w-[1000px] rounded-xl m-4 ml-0 border border-[#FAFAFA] border-collapse`}
 
   tbody, thead {
     th,
@@ -57,10 +57,10 @@ const Main = styled.table`
           ${tw`flex items-center justify-center`}
         }
         button {
-          ${tw`w-[25px] h-[25px]  text-[rgba(40,40,40,.8)] border border-transparent text-[15px] text-center p-0 mx-1 rounded-md`}
+          ${tw` no-underline w-[25px] h-[25px] text-[rgba(40,40,40,.8)] border border-transparent text-[15px] text-center p-0 mx-1 rounded-md `}
         }
         .active-page {
-          ${tw`bg-[white]  border border-[rgba(40, 40, 40, 0.13)]`}
+          ${tw`bg-[white] text-[rgba(40,40,40,.85)] border border-[rgba(40, 40, 40, 0.13)]`}
         }
       }
     }

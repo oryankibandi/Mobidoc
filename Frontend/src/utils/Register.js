@@ -14,6 +14,7 @@ const CheckRegistration = (
   role,
   updateError
 ) => {
+  
   if (role === "patient") {
     if (
       !next_of_kin_first_name ||
@@ -113,6 +114,10 @@ const CheckRegistration = (
   return false;
 };
 const CheckLogin = (phone_number, email, password, role, updateError) => {
+  if (role === "") {
+    updateError("login_err", "warning", true, "All fields are required");
+    return true
+  }
   if (role === "patient") {
     if (!phone_number || !password) {
       updateError("login_err", "warning", true, "All fields are required");

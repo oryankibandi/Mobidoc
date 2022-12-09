@@ -25,7 +25,7 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.first_name}
           ></input>
         ) : (
-          <div className="before-update">{body.first_name}</div>
+          <div className="before-update">{body.first_name?body.first_name:"N/A"}</div>
         )}
       </div>
       {body.role === "doctor" || (
@@ -40,7 +40,7 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               value={body.middle_name}
             ></input>
           ) : (
-            <div className="before-update">{body.middle_name}</div>
+            <div className="before-update">{body.middle_name?body.middle_name:"N/A"}</div>
           )}
         </div>
       )}
@@ -55,7 +55,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.last_name}
           ></input>
         ) : (
-          <div className="before-update">{body.last_name}</div>
+          <div className="before-update">
+            {body.last_name ? body.last_name : "N/A"}
+          </div>
         )}
       </div>
       <div>
@@ -69,7 +71,7 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.email}
           ></input>
         ) : (
-          <div className="before-update">{body.email}</div>
+          <div className="before-update">{body.email ? body.email : "N/A"}</div>
         )}
       </div>
       {body.role === "doctor" || (
@@ -84,7 +86,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               value={body.phone_number}
             ></input>
           ) : (
-            <div className="before-update">{body.phone_number}</div>
+            <div className="before-update">
+              {body.phone_number ? body.phone_number : "N/A"}
+            </div>
           )}
         </div>
       )}
@@ -100,7 +104,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.national_id}
           ></input>
         ) : (
-          <div className="before-update">{body.national_id}</div>
+          <div className="before-update">
+            {body.national_id ? body.national_id : "N/A"}
+          </div>
         )}
       </div>
       {body.role === "doctor" && (
@@ -116,7 +122,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
                 placeholder="Username"
               ></input>
             ) : (
-              <div className="before-update">{body.username}</div>
+              <div className="before-update">
+                {body.username ? body.username : "N/A"}
+              </div>
             )}
           </div>
           <div>
@@ -130,7 +138,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
                 placeholder="Place of work"
               ></input>
             ) : (
-              <div className="before-update">{body.place_of_work}</div>
+              <div className="before-update">
+                {body.place_of_work ? body.place_of_work : "N/A"}
+              </div>
             )}
           </div>
           <div>
@@ -144,7 +154,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
                 onChange={(e) => changeBody(e)}
               ></input>
             ) : (
-              <div className="before-update">{body.area_of_specialty}</div>
+              <div className="before-update">
+                {body.area_of_specialty ? body.area_of_specialty : "N/A"}
+              </div>
             )}
           </div>
         </>
@@ -163,7 +175,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.address_country}
           ></input>
         ) : (
-          <div className="before-update">{body.address_country}</div>
+          <div className="before-update">
+            {body.address_country ? body.address_country : "N/A"}
+          </div>
         )}
       </div>
       <div>
@@ -177,7 +191,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.address_city}
           ></input>
         ) : (
-          <div className="before-update">{body.address_city}</div>
+          <div className="before-update">
+            {body.address_city ? body.address_city : "N/A"}
+          </div>
         )}
       </div>
       {body.role === "doctor" || (
@@ -192,7 +208,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               value={body.address_county}
             ></input>
           ) : (
-            <div className="before-update">{body.address_county}</div>
+            <div className="before-update">
+              {body.address_county ? body.address_county : "N/A"}
+            </div>
           )}
         </div>
       )}
@@ -207,7 +225,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
             value={body.address_street}
           ></input>
         ) : (
-          <div className="before-update">{body.address_street}</div>
+          <div className="before-update">
+            {body.address_street ? body.address_street : "N/A"}
+          </div>
         )}
       </div>
       {body.role === "patient" && (
@@ -228,7 +248,11 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
                 required
               ></input>
             ) : (
-              <div className="before-update">{body.next_of_kin_first_name}</div>
+              <div className="before-update">
+                {body.next_of_kin_first_name
+                  ? body.next_of_kin_first_name
+                  : "N/A"}
+              </div>
             )}
           </div>
           <div>
@@ -244,7 +268,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               ></input>
             ) : (
               <div className="before-update">
-                {body.next_of_kin_middle_name}
+                {body.next_of_kin_middle_name
+                  ? body.next_of_kin_middle_name
+                  : "N/A"}
               </div>
             )}
           </div>
@@ -260,7 +286,11 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
                 required
               ></input>
             ) : (
-              <div className="before-update">{body.next_of_kin_last_name}</div>
+              <div className="before-update">
+                {body.next_of_kin_last_name
+                  ? body.next_of_kin_last_name
+                  : "N/A"}
+              </div>
             )}
           </div>
           <div>
@@ -276,7 +306,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               ></input>
             ) : (
               <div className="before-update">
-                {body.next_of_kin_phone_number}
+                {body.next_of_kin_phone_number
+                  ? body.next_of_kin_phone_number
+                  : "N/A"}
               </div>
             )}
           </div>
@@ -293,7 +325,9 @@ const UserEdit = ({ changeBody, body, startEdit }) => {
               ></input>
             ) : (
               <div className="before-update">
-                {body.next_of_kin_relationship}
+                {body.next_of_kin_relationship
+                  ? body.next_of_kin_relationship
+                  : "N/A"}
               </div>
             )}
           </div>

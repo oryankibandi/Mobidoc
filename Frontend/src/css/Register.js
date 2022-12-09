@@ -20,24 +20,35 @@ const Main = styled.main`
     div {
       ${tw`w-full h-[35px] mb-[25px] flex items-center justify-center`}
       input,select {
+        ::placeholder {
+          ${tw`text-[rgba(40,40,40,.6)]`}
+        }
+
         ${tw`h-full w-full pl-3 border-[#1E1E1E] text-[#1E1E1E] border bg-white focus:bg-[#E8F5F5] md:pl-4`}
       }
       input[type="submit"] {
         ${tw`bg-[#1E1E1E] text-white`}
       }
-    }.last-div{
+    }
+    .login-div {
+      ${tw`relative`}
+      .loginSpinner {
+        ${tw`animate-spin absolute left-[48%] top-[30%] w-[18px]`}
+      }
+    }
+    .last-div {
       ${tw`mb-[35px]`}
     }
     .error-div {
       ${tw`hidden m-0 mb-2 h-auto`}
       p {
-        ${tw`flex items-center justify-between text-center mx-auto my-0 p-1 px-2 rounded-lg bg-[#F9FFFB] text-[#46C882]`}
+        ${tw`flex items-center justify-between text-center mx-auto my-0 p-1 px-2 rounded-lg bg-[#C4F9E2] text-[#004434]`}
         img {
           ${tw`ml-3 w-[8px]`}
         }
       }
       .error {
-        ${tw`bg-[#FFF9F9] text-[#E74040]`}
+        ${tw`bg-[#FFF0F0] text-[#BC1C21]`}
       }
     }
     .active-error-div {
@@ -45,7 +56,14 @@ const Main = styled.main`
     }
   }
   .register {
-    ${tw` bg-white flex flex-col items-center md:w-[60%]`}
+    ${tw` relative bg-white flex flex-col items-center md:w-[60%]`}
+    .information{
+      ${tw`w-[450px] absolute top-[20px] rounded-lg left-[20%] bg-blue-100`}
+      font-family:RufinaRegular;
+      p{
+        ${tw`text-blue-400`}
+      }
+    }
     header {
       ${tw`p-4 mt-[10%] text-xl underline`}
     }
@@ -56,6 +74,7 @@ const Main = styled.main`
     div {
       ${tw`w-full h-[35px] mb-[30px] flex items-center justify-center`}
       input {
+        font-family: notoMedium;
         ${tw`h-full w-full pl-3 border border-[#1E1E1E] text-[#1E1E1E] bg-white focus:bg-[#F1FEFF] md:pl-4`}
       }
       input[type="submit"] {
@@ -85,13 +104,13 @@ const Main = styled.main`
     .error-div {
       ${tw`hidden m-0 mb-2 h-auto`}
       p {
-        ${tw`flex items-center justify-between text-center mx-auto my-0 p-1 px-2 rounded-lg bg-[#F9FFFB] text-[#46C882]`}
+        ${tw`flex items-center justify-between text-center mx-auto my-0 p-1 px-2 rounded-lg bg-[#C4F9E2] text-[#004434]`}
         img {
           ${tw`ml-3 w-[8px]`}
         }
       }
       .error {
-        ${tw`bg-[#FFF9F9] text-[#E74040]`}
+        ${tw`bg-[#FFF0F0] text-[#BC1C21]`}
       }
     }
     .active-error-div {

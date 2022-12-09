@@ -1,111 +1,7 @@
-const getChoice = (data) => {
-  const {
-    first_name,
-    last_name,
-    middle_name,
-    national_id,
-    email,
-    phone_number,
-    address_country,
-    address_county,
-    address_city,
-    address_street,
-  } = data;
-  let newBody = { 
-    first_name,
-    last_name,
-    middle_name,
-    phone_number,
-    national_id,
-    email,
-    address: {
-      country: address_country,
-      county: address_county,
-      city: address_city,
-      street: address_street,
-    },
-  };
-  return newBody;
-};
-const destructure = (data) => {
-  const {
-    first_name,
-    last_name,
-    middle_name,
-    national_id,
-    email,
-    username,
-    phone_number,
-    address_country,
-    address_county,
-    address_city,
-    address_street,
-    next_of_kin_first_name,
-    next_of_kin_last_name,
-    next_of_kin_middle_name,
-    next_of_kin_relationship,
-    next_of_kin_phone_number,
-    place_of_work,
-    area_of_specialty,
-  } = data;
-  let newBody = data;
-  if (address_country && address_county && address_city && address_street) {
-    newBody = {
-      address: {
-        country: address_country,
-        county: address_county,
-        city: address_city,
-        street: address_street,
-      },
-    };
-  }
-  if (
-    next_of_kin_first_name &&
-    next_of_kin_last_name &&
-    next_of_kin_middle_name &&
-    next_of_kin_relationship &&
-    next_of_kin_phone_number
-  ) {
-    newBody = {
-      ...newBody,
-      next_of_kin: {
-        first_name: next_of_kin_first_name,
-        last_name: next_of_kin_last_name,
-        middle_name: next_of_kin_middle_name,
-        relationship: next_of_kin_relationship,
-        phone_number: next_of_kin_phone_number,
-      },
-    };
-  }
-  if (place_of_work && area_of_specialty && username) {
-    newBody = {
-      ...newBody,
-      username,
-      place_of_work,
-      area_of_specialty,
-    };
-  }
-  if (
-    first_name &&
-    last_name &&
-    middle_name &&
-    national_id &&
-    email &&
-    phone_number
-  ) {
-    newBody = {
-      ...newBody,
-      first_name,
-      last_name,
-      middle_name,
-      national_id,
-      email,
-      phone_number,
-    };
-  }
-  return newBody;
-};
-const updatedBody = (body, role) => {
+import axios from "axios";
+const base_url = "https://mobidoc.iankibandi.tech/";
+export const getLogin = (url, body) => axios.post(`${base_url}${url}`, body);
+export const updatedBody = (body, role) => {
   return role === "patient"
     ? {
         last_name: body.last_name,
@@ -123,7 +19,7 @@ const updatedBody = (body, role) => {
         next_of_kin_middle_name: body.next_of_kin.middle_name,
         next_of_kin_relationship: body.next_of_kin.relationship,
         next_of_kin_phone_number: body.next_of_kin.phone_number,
-        role: role,
+        role: role ? role : "",
       }
     : {
         last_name: body.last_name,
@@ -136,12 +32,36 @@ const updatedBody = (body, role) => {
         username: body.username,
         place_of_work: body.place_of_work,
         area_of_specialty: body.area_of_specialty,
-        role: role,
+        role: role ? role : "",
       };
 };
-const parseBody = (body) => {
+export const parseBody = (body) => {
   const items = Object.entries(body);
-  let newBody = { address: {}, next_of_kin: {} };
+  let newBody = {
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+    national_id: "",
+    email: "",
+    phone_number: "",
+    address: {
+      country: "",
+      county: "",
+      city: "",
+      street: "",
+    },
+    next_of_kin: {
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      phone_number: "",
+      relationship: "",
+    },
+    username: "",
+    place_of_work: "",
+    area_of_specialty: "",
+    password: "",
+  };
   const keys = [
     "next_of_kin_first_name",
     "next_of_kin_last_name",
@@ -149,7 +69,6 @@ const parseBody = (body) => {
     "next_of_kin_relationship",
     "next_of_kin_phone_number",
     "phone_number",
-    "retype_password",
     "username",
     "password",
     "place_of_work",
@@ -166,7 +85,7 @@ const parseBody = (body) => {
     "address_street",
   ];
   items.forEach((item) => {
-    if (item[0] in keys) {
+    if (keys.includes(item[0])) {
       if (item[0].startsWith("address")) {
         newBody["address"][`${item[0].slice(8)}`] = item[1];
       } else {
@@ -180,4 +99,66 @@ const parseBody = (body) => {
   });
   return newBody;
 };
-export { destructure, getChoice, updatedBody, parseBody };
+export const getBody = (data = {}, role = null) => {
+  let newBody = {
+    next_of_kin_first_name: "",
+    next_of_kin_last_name: "",
+    next_of_kin_middle_name: "",
+    next_of_kin_relationship: "",
+    next_of_kin_phone_number: "",
+    phone_number: "",
+    retype_password: "",
+    username: "",
+    password: "",
+    place_of_work: "",
+    area_of_specialty: "",
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+    national_id: "",
+    email: "",
+    address_country: "",
+    address_county: "",
+    address_city: "",
+    address_street: "",
+    role: role === "" ? null : role,
+    user_id: null,
+  };
+  if (!data) {
+    return newBody;
+  }
+  const keys = [
+    "next_of_kin",
+    "phone_number",
+    "username",
+    "place_of_work",
+    "area_of_specialty",
+    "first_name",
+    "last_name",
+    "middle_name",
+    "national_id",
+    "email",
+    "phone_number",
+    "address",
+    "user_id",
+  ];
+  Object.entries(data).forEach((item) => {
+    if (keys.includes(item[0])) {
+      if (item[0] === "address") {
+        Object.entries(data[item[0]]).forEach((item) => {
+          newBody[`address_${item[0]}`] = item[1];
+        });
+      } else if (item[0] === "next_of_kin") {
+        Object.entries(data[item[0]]).forEach((item) => {
+          newBody[`next_of_kin_${item[0]}`] = item[1];
+        });
+      } else if (item[0] === `user_id` && role) {
+        newBody["user_id"] = item[1];
+      } else {
+        newBody[item[0]] = item[1];
+      }
+    }
+  });
+  return newBody;
+};
+

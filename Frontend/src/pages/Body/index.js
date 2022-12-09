@@ -1,6 +1,6 @@
-import Message from "./Message"
+import Mypatients from "./Mypatients";
 import Overview from "./Overview"
 import Records from "./Records"
 import Profile from "./Profile"
 
-export {Message, Overview, Records, Profile}
+export { Mypatients, Overview, Records, Profile };

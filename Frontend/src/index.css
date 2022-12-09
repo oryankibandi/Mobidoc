@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @font-face {
     font-family: OswaldSemiBold;
     src: url('./assets/font/Oswald-SemiBold.ttf');
@@ -57,3 +59,8 @@ body {
   background:#ffffff;
   font-family:OswaldBold;
 }
+.active-div {
+    overflow-y:hidden;
+    
+}
+

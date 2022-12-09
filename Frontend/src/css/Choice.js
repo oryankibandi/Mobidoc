@@ -17,8 +17,11 @@ const Main = styled.main`
       font-family: RufinaRegular;
       ${tw`w-[70%] min-w-[250px] max-w-[400px] mx-auto mb-4 flex flex-col justify-between space-y-2 sm:space-y-0 sm:min-w-[300px] sm:flex-row`}
       select, input {
-        font-family: RufinaRegular;
-        ${tw`w-full p-2 text-[#404040] text-[15px] bg-white border-solid border-transparent py-2 pl-4 border focus:border-[rgba(40,40,40,.5)]`}
+        ::placeholder{
+          ${tw`text-[rgba(40,40,40,.6)]`}
+        }
+        font-family: NotoMedium;
+        ${tw`w-full p-2 text-[#404040] text-[15px] bg-white border-solid border-transparent py-1 pl-3 border focus:border-[rgba(40,40,40,.5)]`}
       }
     }
     a {
@@ -30,13 +33,13 @@ const Main = styled.main`
     .error-div {
       ${tw`hidden m-0 mb-2 h-auto`}
       p {
-        ${tw`flex items-center justify-between text-left mx-auto my-0 p-1 px-2 rounded-lg bg-[#F9FFFB] text-[#46C882]`}
+        ${tw`flex items-center justify-between text-left mx-auto my-0 p-1 px-2 rounded-lg bg-[#C4F9E2] text-[#004434]`}
         img {
           ${tw`ml-3 w-[8px]`}
         }
       }
       .error {
-        ${tw`bg-[#FFF9F9] text-[#E74040]`}
+        ${tw`bg-[#FFF0F0] text-[#BC1C21]`}
       }
     }
     .active-error-div {

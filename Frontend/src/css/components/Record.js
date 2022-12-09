@@ -4,6 +4,7 @@ import tw from "twin.macro"
 const Main = styled.div`
   font-family: RufinaRegular;
   ${tw`bg-white w-[600px] text-[#404040] mb-4 p-4 px-6 rounded-lg`}
+
   div {
     ${tw`w-full h-auto`}
   }
@@ -53,34 +54,9 @@ const Main = styled.div`
         font-family: RufinaBold;
         ${tw`text-[17px]`}
       }
-      table {
-        ${tw`rounded`}
-        border-collapse: collapse;
-      }
-      td,
-      th {
-        ${tw`p-2 px-3 text-start text-[rgba(40,40,40,.8)]`}
-      }
-      tr {
-        border-bottom: 1px solid rgba(122, 110, 254, 0.05);
-        td:first-child,
-        th:first-child {
-          border-radius: 5px 0px 0px 0px;
-          border-style: solid;
-          border: none;
-        }
-        td:last-child,
-        th:last-child {
-          border-radius: 0px 5px 0px 0px;
-          border-style: solid;
-          border: none;
-        }
-      }
-      tr:first-child {
-        ${tw`bg-[rgba(122, 110, 254, .05)]`}
-      }
     }
   }
+  
 `;
 
 export {Main}
